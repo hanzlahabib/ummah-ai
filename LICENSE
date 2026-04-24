@@ -1,0 +1,125 @@
+The Ummah AI Initiative — Licensing
+
+This repository currently contains documentation only. Future additions
+will include source code, datasets, and other materials that may carry
+different licenses. This file describes the licensing regime.
+
+================================================================================
+
+DOCUMENTATION
+-------------
+
+All documentation (.md files, written guides, diagrams in text form, and
+similar written content) in this repository is licensed under the
+
+    Creative Commons Attribution-ShareAlike 4.0 International License
+    (CC BY-SA 4.0)
+
+You are free to:
+
+  • Share — copy and redistribute the material in any medium or format
+  • Adapt — remix, transform, and build upon the material
+    for any purpose, even commercially.
+
+Under the following terms:
+
+  • Attribution — You must give appropriate credit, provide a link to
+    the license, and indicate if changes were made. You may do so in
+    any reasonable manner, but not in any way that suggests the licensor
+    endorses you or your use.
+
+  • ShareAlike — If you remix, transform, or build upon the material,
+    you must distribute your contributions under the same license as
+    the original.
+
+  • No additional restrictions — You may not apply legal terms or
+    technological measures that legally restrict others from doing
+    anything the license permits.
+
+Full license text: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+
+================================================================================
+
+CODE (future)
+-------------
+
+Source code added to this repository, and to projects released under
+this initiative, will by default be licensed under the MIT License
+unless a specific project file (e.g. a subdirectory LICENSE) specifies
+otherwise.
+
+Some components may be released under Apache License 2.0 where patent
+grants are material. A small number of components may be released under
+strong-copyleft terms (AGPL-3.0) where preventing proprietary
+appropriation of defensive tooling is deemed essential. Such cases will
+be clearly marked at their directory root.
+
+Each source file or directory will either:
+
+  (a) carry an SPDX-License-Identifier header, or
+  (b) reside within a subtree with a clearly-marked LICENSE file.
+
+In the absence of either marker, assume MIT.
+
+================================================================================
+
+DATA AND DATASETS (future)
+--------------------------
+
+Datasets released by this initiative will be licensed on a
+dataset-by-dataset basis. Most public datasets will be released under
+CC BY-SA 4.0 or CDLA-Sharing-1.0.
+
+Datasets containing user data, activist data, or any content covered by
+Layer 4 of the disclosure framework (see docs/03-open-vs-closed.md) will
+NEVER be released publicly, under any license.
+
+================================================================================
+
+TRADEMARKS
+----------
+
+Names associated with the initiative and its projects — including but
+not limited to "The Ummah AI Initiative", "Basira", "Shahid", "Hisn",
+and "Mizan" — are reserved for use by the initiative itself. Third-party
+use of these names in ways that suggest endorsement or official
+affiliation is not permitted without written consent.
+
+This restriction does NOT prevent:
+
+  • Factual reference to the initiative or its projects in journalism,
+    academic writing, or ordinary speech.
+  • Forks of the code and documentation, provided the fork uses a
+    different project name and does not misrepresent its relationship
+    to the original.
+
+================================================================================
+
+CONTRIBUTOR AGREEMENTS
+----------------------
+
+By contributing to this repository, contributors agree that their
+contributions will be licensed under the same terms that govern the
+files they modify (typically CC BY-SA 4.0 for documentation, MIT for
+code).
+
+Contributors retain copyright in their contributions. No copyright
+assignment is required. A Developer Certificate of Origin (DCO) may be
+adopted for code contributions once a code phase begins.
+
+================================================================================
+
+QUESTIONS
+---------
+
+License questions may be raised as public issues in this repository. We
+prefer open discussion over private correspondence on licensing matters.
+
+================================================================================
+
+This licensing regime is itself subject to the initiative's principles.
+It may be updated through the governance process described in
+docs/06-governance.md. Updates will not retroactively change the license
+of previously-released content.
