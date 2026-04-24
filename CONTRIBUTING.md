@@ -56,6 +56,47 @@ Contribution is not limited to code. All of the following are valuable:
 
 ---
 
+## What You Get — Honest Answer
+
+A fair question every contributor should ask: *"If I contribute, what do I get?"* This project's financial structure is explicitly documented in [`FINANCIAL_MODEL.md`](FINANCIAL_MODEL.md). In summary:
+
+### If you submit an open-source contribution (code, docs, translation, testing, review):
+
+- **Full license to your own work.** Your contribution is licensed under MIT / CC BY-SA 4.0 — meaning **you can use it anywhere, forever, including in your own commercial products.** You are not signing over rights to us.
+- **Public attribution** (or pseudonymous if you prefer). Credited in release notes, contributor lists, git history.
+- **Right to fork** per Principle 8 — always.
+- **Reference value** for your career or academic work.
+- **Network access** to scholars, technologists, institutional partners.
+- **Mission participation** — your commits are part of the permanent record of building Ummah digital infrastructure.
+
+You do NOT automatically receive salary, equity, or revenue share from the unpaid contribution tier. But paid paths exist (see below).
+
+### Paid paths for contributors
+
+- **Full-time roles** — fair-market salary, published ranges, no equity (we are not a startup with an exit).
+- **Scholar compensation** — paid per-review, retainers, or grants.
+- **Feature bounties** — agreed-in-advance pay for significant external contributions.
+- **Retroactive grants** — case-by-case awards for exceptional already-completed work.
+- **Contracted specialists** — security audits, translations, legal, accounting.
+
+Target: **5% of net revenue** flows through bounty / grant pools per `FINANCIAL_MODEL.md`.
+
+### What the founder does NOT get
+
+This matters to contributors, so it is stated openly:
+
+- **Founder has a lifetime financial cap** on total return from the initiative. Above the cap, all value flows to mission work.
+- **No unlimited equity upside.** This is not a Silicon-Valley startup; the founder will not be enriched beyond a documented ceiling.
+- **The entity is not for sale.** Categorical commitment in the founding documents — no acquisition, no merger, no sale at any price. Structurally protects the mission from being redirected by new ownership.
+
+These commitments are enforced in the legal entity's articles of incorporation, not promises. Annual audit verifies compliance. See `FINANCIAL_MODEL.md` for full details, tentative figures, and governance.
+
+### Why this matters
+
+Many open-source projects are extractive: volunteers contribute, the company profits, the founder sells for millions. We commit, structurally, that this is not that model. **The majority of value at scale flows to mission work, not founder wealth.** You can verify this in the published transparency reports, not just trust it.
+
+---
+
 ## How to Contribute (Practical)
 
 ### For written contributions

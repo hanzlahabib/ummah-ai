@@ -89,9 +89,12 @@ The work is done for the benefit of the Ummah and of humanity, with accountabili
 - Contributors may not use the project primarily as a vehicle for personal fame, political power, or the elevation of their individual brand above the mission.
 - Credit is given openly; plagiarism and credit-theft are grounds for exclusion.
 - The mission is not tied to the founder or any individual. No one is indispensable.
+- **Financial extraction is structurally prevented.** The founder's lifetime return from the initiative is capped (per `FINANCIAL_MODEL.md`), the majority of value at scale flows to mission work, and contributors are not extracted from — their work is theirs (MIT / CC BY-SA licensed), paid paths exist, and the commercial entity cannot quietly become a vehicle for private wealth.
 
 **Why:**
 Every great institution eventually faces the test of whether it exists to serve its mission or to serve its leaders. This principle is a reminder that the answer must always be the former. When in doubt about a decision, ask: *"Would I make this choice if no one would ever know I made it?"*
+
+The financial model is not a side-commitment. It is the concrete test of this principle. A mission whose founder is quietly enriched, whose contributors are extracted from, or whose profits accumulate to a small number of insiders has failed the `ikhlas` test regardless of what it says on paper. See `FINANCIAL_MODEL.md` for the structural commitments that make this principle enforceable rather than aspirational.
 
 ---
 

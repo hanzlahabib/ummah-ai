@@ -60,6 +60,7 @@ ummah-ai/
 ├── PRIVACY.md                      ← User-facing privacy commitment
 ├── LICENSE                         ← Licensing (CC BY-SA 4.0 docs, MIT code)
 ├── ROADMAP.md                      ← Timeline, phases, milestones (with diagrams)
+├── FINANCIAL_MODEL.md              ← Revenue allocation, founder cap, contributor compensation
 ├── docs/
 │   ├── 01-why-this-exists.md       ← Threat model: AI-driven harms against innocents
 │   ├── 02-historical-precedent.md  ← Lessons from 1400 years of Muslim civilization
@@ -88,6 +89,8 @@ ummah-ai/
 **If you are new:** Read in order — `MANIFESTO.md` → `PRINCIPLES.md` → `docs/01` through `docs/09` → `ROADMAP.md`. Use `GLOSSARY.md` for any Arabic or Islamic terms that are new to you.
 
 **If you want the plan at a glance:** Go straight to `ROADMAP.md` — it has the phase timeline, milestones, and project-maturation diagrams.
+
+**If you are considering contributing and wondering about compensation or founder incentives:** Read `FINANCIAL_MODEL.md` — explicit on founder cap, revenue allocation, what contributors get, and legal enforcement.
 
 **If you are a developer about to contribute code:** Read `CONTRIBUTING.md`, `docs/03-open-vs-closed.md`, `docs/07-non-negotiables.md`, `SECURITY.md`, and the `architecture/` folder.
 

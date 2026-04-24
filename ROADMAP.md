@@ -300,7 +300,34 @@ Phase 4 depends heavily on what has emerged by 2030 externally (Gulf sovereign A
 
 ---
 
-## Funding timeline overlay
+## Financial model (summary)
+
+**Full document:** [`FINANCIAL_MODEL.md`](FINANCIAL_MODEL.md).
+
+This initiative operates under a **capped-founder-equity + waqf commitment** model (Option 2 in the financial model choices). The key commitments:
+
+- **Founder's lifetime return is capped** at a small documented figure (tentatively $500K USD indexed, ratified in founding legal documents). Above the cap, all value flows to mission work.
+- **The entity is not for sale.** Categorical, not case-by-case. No acquisition, merger, or sale is permitted under any circumstances. Structural protection against mission drift via ownership change.
+- **Contributors are not extracted from.** Open-source contributions remain MIT / CC BY-SA licensed — your work is yours, forever, including for your own commercial use.
+- **Majority of value at scale flows to mission work**, not founder wealth.
+- **Legally enforced** via articles of incorporation and annual independent audit.
+- **Published annually** in a transparency report — revenue, costs, allocations, founder compensation, all visible.
+
+### Revenue allocation (of net revenue, after direct operating costs)
+
+```mermaid
+pie title Revenue allocation (net of operating costs)
+    "Team salaries (fair market)" : 40
+    "Mission allocation (Track B — minimum floor)" : 20
+    "Scholar compensation" : 12
+    "Founder compensation (within cap)" : 13
+    "Contributor bounty / grant pool" : 8
+    "Reserve / runway" : 7
+```
+
+Percentages are illustrative operating defaults from `FINANCIAL_MODEL.md`. The **20% mission floor is contractually binding**; the other percentages adjust with headcount and circumstances.
+
+### Funding timeline overlay
 
 ```mermaid
 flowchart TB
