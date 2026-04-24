@@ -13,7 +13,7 @@ This is not a company. This is not a product. This is **civilizational infrastru
 
 ## Why This Exists
 
-In February 2026, the following is true simultaneously:
+As of April 2026, the following is true simultaneously:
 
 - AI is being used to automatically target civilians in Gaza (Israeli military's "Lavender" and "Where's Daddy" systems).
 - AI-powered facial recognition identifies Uyghurs for internment in Xinjiang.
@@ -93,7 +93,7 @@ Deliberately left open. Discuss in public — open GitHub issues, pull requests,
 
 ---
 
-**Initial authorship:** Hanzla Habib, Pakistan, February 2026.
+**Initial authorship:** Hanzla Habib, Pakistan, April 2026.
 **Inspiration:** Bayt al-Hikmah (Baghdad, 8th century). Salah ad-Din al-Ayyubi (12th century). The tradition of the Muslim polymaths who believed knowledge belonged to humanity.
 
 **This belongs to no one. It belongs to the Ummah.**
