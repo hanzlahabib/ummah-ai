@@ -34,7 +34,7 @@ corpus/
 ├── quran/
 │   ├── text/                      ← canonical Arabic + variant qira'at
 │   ├── translations/              ← per-language, per-translator
-│   └── tafsir/                    ← links to tafsir sections, multiple works
+│   └── tafseer/                   ← links to tafseer sections, multiple works
 ├── hadith/
 │   ├── sunni/
 │   │   ├── bukhari/
@@ -53,7 +53,7 @@ corpus/
 │   │   └── nahj-al-balagha/
 │   └── ibadi/
 │       └── musnad-ar-rabi/
-├── tafsir/
+├── tafseer/
 │   ├── ibn-kathir/
 │   ├── tabari/
 │   ├── qurtubi/
@@ -148,7 +148,7 @@ Any change to a citation record updates the provenance and creates a version rec
 
 Per Principle 1 and `../docs/09-content-policy.md`, multiple traditions are first-class.
 
-- A Quranic verse has one canonical text, but multiple translations and multiple tafsir references across traditions. Its `tradition` field is `["shared"]`.
+- A Quranic verse has one canonical text, but multiple translations and multiple tafseer references across traditions. Its `tradition` field is `["shared"]`.
 - A hadith from Sahih al-Bukhari has `tradition: ["sunni"]`.
 - A hadith from Al-Kafi has `tradition: ["shia"]`.
 - A ruling from a Shafi'i fiqh manual has `school: ["shafii"]`.
@@ -174,7 +174,7 @@ Primary sources currently planned:
 - **Quran**: Tanzil.net — multiple readings, multiple translations.
 - **Hadith (Sunni)**: Sunnah.com — major collections, translations.
 - **Hadith (Shia)**: Al-Islam.org open text collections, thaqalayn.net data.
-- **Tafsir**: Altafsir.com (where licensed), QuranX open data, academic repositories.
+- **Tafseer**: Altafsir.com (where licensed), QuranX open data, academic repositories.
 - **Fiqh/classical works**: Shamela.ws export format, Waqfeya, academic digitizations.
 
 Each source has a documented ingestion plan. Unclear licensing is resolved before ingestion — "we'll sort it out later" is forbidden.

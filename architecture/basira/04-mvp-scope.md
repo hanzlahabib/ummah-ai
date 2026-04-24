@@ -33,7 +33,7 @@ The MVP is deliberately narrow. A narrow, excellent MVP is better than a wide, m
 │   • Additional languages (Phase 2)          │
 │   • Complete fiqh corpus (start with        │
 │     focused subset)                         │
-│   • Complete tafsir library (start with     │
+│   • Complete tafseer library (start with    │
 │     most-used works)                        │
 │   • Rapid-response current events module    │
 │   • API for third-party integrations        │
