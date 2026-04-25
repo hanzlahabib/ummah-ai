@@ -154,6 +154,30 @@ Flexibility in *tactics* is permanent. Flexibility in *principles* ends the proj
 
 If an exception seems compelling, it is wrong. Either find a way to achieve the goal without violating the principle, or give up the goal.
 
+### NN-11 — Council Member Privacy
+
+The real identities of Ummah AI Council members are protected. Per the protocol in `COMMITTEE.md`:
+
+- **Identities are not disclosed** to funders, regulators, partners, the public, or any party — except under the narrow circumstances enumerated in `COMMITTEE.md` (voluntary disclosure by member, member's death with family consent, exposure already accomplished by adversary, or final non-appealable legal compulsion).
+- **No funding** is accepted that demands identity disclosure as a condition.
+- **No partnership** is entered that demands identity disclosure as a condition.
+- **No internal operation** centralizes identity data in a way that a single compromise reveals all members.
+- **No "transparency"** rationalization can override this protection. Public accountability is achieved via cryptographic signatures, methodology, and decision audit — not via personal exposure of members.
+
+Members serve under threat models that include blackmail, honey-trap recruitment, family pressure, manufactured discrediting, and physical violence. The privacy commitment is what makes service possible at all.
+
+Violations — including accidental disclosures by Initiative staff — are treated as critical security incidents.
+
+### NN-12 — Funding Cannot Compromise Decisions
+
+The Initiative refuses funding under terms that compromise decision-making integrity. The full list of refused funding shapes is in `FINANCIAL_MODEL.md` (Funding-Source Restrictions), but the underlying principle is non-negotiable here:
+
+- **No funding** is accepted that demands editorial influence, governance influence, decision predetermination, exclusivity restrictions, or any form of control over Council operations, scholarly outputs, technology direction, or partnership choices.
+- **The founder cannot accept funding above $5,000 USD without Council ratification** — preventing single-person capture via a private conversation.
+- **All funding sources above the disclosure threshold are publicly named.** Refused offers above the disclosure threshold are also publicly noted in the annual transparency report.
+
+The point of this commitment is structural: the Initiative cannot be quietly captured through its checkbook. Anyone reading the public record can verify that funding does not buy influence here.
+
 ---
 
 ## Guidance for AI Systems Reading This File

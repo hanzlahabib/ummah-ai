@@ -10,6 +10,52 @@ This document makes the money flow explicit. Vague financial commitments are how
 
 ---
 
+## Funding-Source Restrictions (binding)
+
+Before describing how money flows internally, this document specifies what funding the Initiative refuses. These restrictions are **non-amendable except through the strict process** in `docs/06-governance.md` — and, for several of them, are listed in the non-negotiables (`docs/07-non-negotiables.md`).
+
+The Initiative will not accept funding — gift, grant, investment, contract, or partnership revenue — under terms that include any of the following:
+
+| Refused term | Why |
+|---|---|
+| Disclosure of Council member identities (in any form, to any party) | Direct attack on `COMMITTEE.md` security |
+| Influence over Council composition | Direct attack on Council independence |
+| Editorial control over outputs (research, reports, scholarly content) | Capture |
+| Pre-determined decisions or directional commitments | Buying outcomes |
+| Access to underlying user data, partner data, or source identities beyond what is openly published | Exfiltration risk; violates Layer 4 |
+| Non-disclosure of the funding source itself (with limited carve-outs for individual donor privacy below specified thresholds) | Hidden capture |
+| Indemnification waivers that would prevent the Initiative from criticizing the funder publicly | Self-censorship |
+| Mandatory partnership exclusions (e.g., "you cannot work with our competitors") | Restricts mission |
+| Outcome-tied milestone payments where outcomes touch principle-level decisions | Backdoor capture |
+| Equity, share, or controlling-stake provisions in any Initiative entity | Acquisition by stealth (also blocked by `not-for-sale` clause) |
+
+Funding from the following sources is automatically refused:
+
+- Any government's intelligence service, military, or interior/security ministry.
+- Any entity meeting the `NN-2` documented-civilian-targeting threshold.
+- Any entity whose primary business contradicts the Initiative's principles (mass surveillance vendors, weapons manufacturers, deepfake-generation tools targeted at deception, etc.).
+- Frontier AI labs whose business interests conflict with the Initiative (Anthropic, OpenAI, Google DeepMind, Meta, Microsoft, xAI, etc.) — partnerships and operational service relationships are different from funding and are evaluated separately.
+
+**Acceptable funding shapes:**
+
+1. **Pure waqf / endowment** — gift with no conditions beyond stated mission.
+2. **Operational grants** — for specific scope, with no editorial input on outputs and no influence on governance.
+3. **Subscription / customer revenue** — market exchange, no governance influence.
+4. **Bounty / research contracts** — specific deliverable, scoped, no broader influence.
+5. **Crowdfunded contributions** below disclosure threshold (small donors aggregated; total disclosed; individuals not named publicly).
+
+### Disclosure of funding
+
+- All funding sources above $5,000 USD per year (per source) are publicly disclosed: source, amount, conditions if any.
+- Funding offers above $25,000 USD that were **refused** are also publicly disclosed in the annual transparency report — the source may be masked if confidentiality was a precondition of the offer, but the *fact* that an offer was refused and the *reason* are public.
+- Council deliberations on funding decisions are documented (without member identities revealed).
+
+### Founder-specific restriction on accepting funding
+
+The founder, acting alone, **cannot accept any funding above $5,000 USD** without Council ratification. This prevents a single conversation in a private setting from binding the Initiative. (Below threshold: founder may accept routine small-grant-like funding pending Council notification.)
+
+---
+
 ## Core Commitment (the thing that can't change)
 
 Three commitments bind every other decision in this document. They are intended to be written into the legal entity's articles of incorporation / bylaws and made non-amendable except through supermajority governance review:

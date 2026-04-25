@@ -1,395 +1,291 @@
-# Shahid — Full Roadmap
+# Shahid — Detailed Roadmap
 
-> شَاهِد — *Witness*
-> When AI drops a bomb, someone has to remember.
-
----
-
-## The 30-Second Pitch
-
-In April 2024, Israel used an AI system called **Lavender** to generate kill lists in Gaza — marking tens of thousands of Palestinians, with human review time measured in seconds per target. Children died in their homes because an algorithm said so.
-
-China runs **facial recognition tuned for Uyghurs.** The US armed the Taliban with biometric databases. Meta's algorithms quietly disappear Palestinian journalism. Deepfakes ruin the lives of Muslim women and journalists daily.
-
-**And there is no archive.** No permanent, cryptographically-verified record of these harms. When journalists publish, the evidence scatters. When cases die in court, the facts fade. When perpetrators deny, no neutral record contradicts them.
-
-**Shahid fixes that.** A permanent, tamper-evident, multi-jurisdiction archive of AI-driven harms against civilians — built to outlast governments, corporations, and us. Used by journalists, lawyers, researchers, and courts. Proof that cannot be erased.
-
-**This is not a commercial product.** Shahid is grant-funded and waqf-funded, subsidized by Basira revenue. Its value is measured in testimony, not subscriptions.
-
-**You are needed.** This roadmap shows what we build, phase by phase.
+> Audit-grade. Specific tasks. Effort estimates. Acceptance criteria. Risks.
+> No fluff. Auditable by journalists, lawyers, and human-rights reviewers.
 
 ---
 
-## Who This Is For
+## Status snapshot
 
-### As a user / consumer of the archive
-
-| Persona | What they do today | What Shahid gives them |
-|---|---|---|
-| **Investigative journalist** covering AI-driven conflict | Fragmented leaks, time-consuming verification, lost documents | Centralized, verified, citation-ready archive with provenance |
-| **Human rights lawyer** building a case | Evidence scattered across platforms that may remove it | Permanent, timestamped, cryptographically-signed evidence |
-| **Academic researcher** studying AI harm | Pieced-together case notes from journalism | Structured dataset with methodology + reproducibility |
-| **Policy advocate** pushing for regulation | Anecdotes that opponents dismiss | Quantified, documented pattern evidence |
-| **ICC / UN investigator** preparing documentation | No dedicated tooling for AI-harm cases | Evidence workflow tuned for AI-accountability |
-| **Future generations** studying our era | Fragmented historical record | Preserved, searchable, contextualized memory |
-
-### As a contributor
-
-| You are | What you build | What you get |
-|---|---|---|
-| **Backend / archival systems engineer** | Archive infrastructure, replication, provenance pipelines | Paid role (grant-funded); unusual systems-design experience |
-| **Cryptographic engineer** | Content provenance (C2PA), signing, tamper-evident logs | Published implementation of hard protocols; research value |
-| **OSINT researcher** | Submission verification, corroboration workflows | Named attribution on reports; network of journalists and HR orgs |
-| **Legal / paralegal** | Evidence standards, chain-of-custody design | Reference experience for legal career |
-| **Frontend engineer** | Public search interfaces, researcher dashboards | Work that shows up in citations |
-| **Survivor / witness community liaison** | Intake design, protection protocols | Paid role; critical work for a vulnerable constituency |
-
----
-
-## Product Principle — The Three-Sentence Test
-
-We test every Shahid feature against this sentence:
-
-> *"This feature makes it harder for a perpetrator of AI-driven civilian harm to deny what happened, without putting a witness, source, or submitter in additional danger."*
-
-If a feature doesn't serve that sentence, it doesn't ship.
-
----
-
-## Version Roadmap
-
-```mermaid
-timeline
-    title Shahid version roadmap
-    section v0.1 Design phase
-        Phase 1 : Methodology + partnerships
-                : C2PA integration spec
-                : First 3 pilot journalist partners
-                : Internal tooling only, no public archive yet
-    section v0.5 Closed pilot
-        Phase 2 : Intake (encrypted + Tor) for pilot partners
-                : Internal archive of 100-500 documented cases
-                : First publicly-released case (with partner)
-                : Verification workflow operational
-    section v1.0 Public launch
-        Phase 2 : Public search for verified cases
-                : Researcher API (credentialed)
-                : First quarterly pattern report
-                : 1000+ cases archived
-                : Court-admissible evidence standard
-    section v2.0 Institutional
-        Phase 3 : ICC / UN / Tribunal partnerships
-                : Legal-filing support service
-                : 10,000+ cases
-                : Multi-jurisdiction mirror network
-                : Integration with Bellingcat, HRW, Forensic Arch.
-    section v3.0 Permanence
-        Phase 4+ : Distributed archive (immutable replicas globally)
-                 : Blockchain-anchored timestamps for tamper-evidence
-                 : Multilingual access (10+ languages)
-                 : 100,000+ cases
-                 : Cited in international criminal cases
-```
-
----
-
-## v0.1 — Design Phase (Phase 2 beginning — late 2027)
-
-### What ships
-
-#### Internal
-
-- **Methodology document** — what kinds of harm we archive, what evidence standards we require, how verification works. Published publicly as Layer 1 open content.
-- **C2PA integration spec** — how we apply content provenance to submissions; harmonized with adjacent projects (Content Authenticity Initiative, Project Origin).
-- **Submission intake protocols** — for pilot partners only. Encrypted channel + Tor hidden service.
-- **Case schema** defined per `01-overview.md` (expanded).
-- **First 3 pilot journalist / HR-org partners** engaged. Possibly: 7amleh (Palestine), +972 Magazine, Forensic Architecture, or similar.
-
-#### What does NOT ship in v0.1
-
-- Public archive (not yet — we're validating the workflow first).
-- Automated intake from public.
-- Search interfaces.
-- Reports.
-
-### Success criteria for v0.1
-
-- 10-20 cases documented with full provenance chain as proof of concept.
-- 3 pilot partnerships signed.
-- Methodology peer-reviewed by at least 2 established human rights organizations.
-- Legal counsel has validated evidence standards meet international human rights / journalism norms.
-
-### Who we need for v0.1
-
-- 2-3 core engineers (archival systems, crypto).
-- 1 investigative lead (coordinates with journalists).
-- 1 legal advisor (evidence standards).
-- Grant funding in place ($100-300K initial).
-
----
-
-## v0.5 — Closed Pilot (2028)
-
-### What adds on top of v0.1
-
-#### User-visible (to pilot partners only)
-
-- **Secure submission portal** — web + Tor hidden service. Partners submit evidence with full metadata, attachments, narrative.
-- **Verification workflow** — triage → corroboration → flagging → publication decision. Dashboard for partners to track submission status.
-- **Internal search and browse** — partners can explore the archive for related cases when investigating new ones.
-- **Export for journalism / legal use** — citation-formatted bundles for specific investigations.
-
-#### Behind the scenes
-
-- **Archive replication** — primary (Hetzner EU) + 2 replica sites (different jurisdictions).
-- **Append-only storage** with cryptographic hash chain.
-- **C2PA fully integrated** for media artifacts.
-- **Zero-knowledge intake** for highest-sensitivity submissions — when partner submits with sensitivity flag, submitter-identifying metadata is encrypted to keys only the partner holds; Shahid stores the case but can't de-anonymize the submitter.
-
-#### Public-facing (limited)
-
-- **First publicly-released case** — in collaboration with a pilot partner. Full methodology visible. Proof that the system works.
-- **Annual methodology update** published.
-
-### Success criteria for v0.5
-
-- 100-500 cases in archive (mix of historical and contemporary).
-- 5+ pilot partnerships producing active submissions.
-- First major news story using Shahid as a source.
-- Legal panel review: archive's evidence meets court-admissibility standards in at least one jurisdiction.
-- Funding runway secured for v1.0.
-
----
-
-## v1.0 — Public Launch (2028)
-
-### What ships
-
-#### Public
-
-- **Public search and browse** — anyone can search the archive. Free.
-- **Case detail pages** — structured presentation of each documented case: what happened, evidence, corroboration, citations, how to use this in journalism/law.
-- **Researcher API** — credentialed for academics, journalists, legal researchers. Programmatic access for large-scale analysis.
-- **First quarterly Pattern Report** — aggregate analysis of patterns in archived cases. Published openly; press-ready formats.
-- **Methodology documentation** — fully public, peer-reviewable.
-- **Case citation format** — standardized, ready for academic + legal use.
-
-#### Institutional
-
-- **Partnership infrastructure** — formal MoUs with major human rights orgs (HRW, Amnesty, Access Now, 7amleh, Bellingcat).
-- **Law school clinic partnerships** — students use Shahid in clinical work.
-
-### Success criteria for v1.0
-
-- 1,000+ documented, verified cases.
-- Shahid citations in 5+ major news publications.
-- Shahid citations in at least 1 academic paper.
-- Shahid referenced in at least 1 legal filing.
-- 10+ partner organizations.
-- Open methodology validated by peer review.
-
-### Monetization (revenue streams)
-
-Shahid is **not commercial** in the SaaS sense, but has several funding paths:
-
-| Source | Structure |
+| Item | Value |
 |---|---|
-| **Digital rights foundation grants** | Open Society, Ford, MacArthur, Luminate, Omidyar |
-| **Muslim philanthropic waqfs** | Dedicated mission-aligned philanthropy |
-| **Research partnership grants** | Universities funding specific case studies or methodology development |
-| **Basira mission-allocation (20% floor)** | Waqf-style commitment (see `FINANCIAL_MODEL.md`) |
-| **Report licensing to major media** | Syndication / exclusive rights to specific investigations |
-| **Expert witness / consulting** | Paid work for journalists or lawyers using Shahid evidence; hourly rates |
+| Phase | Pre-implementation (sketch only) |
+| Last update | 2026-04 |
+| Funding secured | $0 |
+| Funding committed | $0 |
+| Partner orgs (verbal interest) | 0 (outreach pending) |
+| Cases archived | 0 |
+| Active contributors | 0 |
+| Council members holding Shahid lead role | 0 |
 
-**Funding target v1.0:** $500K-1M annual operating budget, mix of above sources.
-
----
-
-## v2.0 — Institutional (2029)
-
-### What becomes possible
-
-#### Legal and international
-
-- **ICC / UN tribunal partnerships** — formal evidence pipelines where Shahid's archive is a recognized source. Chain-of-custody standards hardened.
-- **Legal filing support** — team capable of preparing specific case documentation for litigation. Paralegal support. Expert declarations.
-- **Cross-jurisdictional mirror network** — archive physically distributed across 3+ jurisdictions (EU + Middle East + Southeast Asia + potentially Latin America). No single government can compel deletion.
-
-#### Integration
-
-- **Bellingcat / Forensic Architecture integrations** — shared standards, cross-referenced datasets.
-- **Academic integration** — formal relationships with 5-10 research institutions embedding Shahid as a research infrastructure.
-- **Journalism integration** — partnerships with major outlets (Al Jazeera, The Guardian, Washington Post) for rapid-access research.
-
-### Success criteria for v2.0
-
-- 10,000+ verified cases.
-- Shahid referenced in at least 1 ICC-level or UN commission proceeding.
-- Shahid methodology cited as reference in academic literature.
-- Multi-jurisdiction mirror network operational.
-- Sustained annual budget $1-3M via multiple funding streams.
+Implementation begins Phase 2 of the Initiative (after Basira MVP demonstrates revenue path), per `../../docs/05-strategy.md`.
 
 ---
 
-## v3.0 — Permanence (2030+)
+## How to audit this roadmap
 
-### The long vision
-
-Shahid becomes **the Mémorial for AI-driven civilian harm** — as recognized and indelible in the public record as Holocaust archives became in the mid-20th century, or as the Truth and Reconciliation Commission's record is in South Africa.
-
-- **Tamper-evidence** anchored to public blockchains (via OpenTimestamps or equivalent) so timestamps cannot be repudiated.
-- **Global mirror network** — copies in every major jurisdiction; dissolution of any operating entity does not destroy the archive.
-- **Multilingual access** — 10+ languages for researchers worldwide.
-- **Integrated with legal, journalistic, and academic curricula** globally.
-- **Referenced as common infrastructure** in the way the Internet Archive, Wikipedia, or the Rosetta Project are now.
-
-### Scale targets
-
-- 100,000+ cases.
-- Archive survives any single institutional failure.
-- Citations in international criminal proceedings.
-- Genuinely unerasable public record of AI-era harms against civilians.
+1. **Repo state:** Once code begins, each task corresponds to issues/PRs.
+2. **Cases archived:** Public count visible at any time; methodology documented.
+3. **Partnership MoUs:** Public list of partner organizations.
+4. **Quarterly Pattern Reports:** Published on schedule once v1.0 live.
+5. **Annual transparency report:** Spending vs. budget, governance decisions, incidents.
 
 ---
 
-## How the Archive Works (Technical)
+## v0.1 — Methodology Phase (target: 6 months from Phase-2 start)
 
-```mermaid
-flowchart TB
-    S1[Submitter<br/>journalist / witness / org] --> T[Secure intake<br/>Tor hidden service<br/>+ encrypted web form]
-    T --> V[Verification<br/>provenance + corroboration]
-    V --> |accepted| A[Append-only archive<br/>primary: Hetzner EU<br/>replicas: 2+ other jurisdictions]
-    A --> H[Hash chain<br/>cryptographic integrity]
-    H --> B[Blockchain anchor<br/>OpenTimestamps]
-    A --> P[Public index<br/>searchable, citation-ready]
-    A --> R[Protected index<br/>source identities<br/>zero-knowledge where<br/>warranted]
-    P --> C[Consumers:<br/>journalists, courts,<br/>researchers, public]
-    R --> L[Limited consumers:<br/>credentialed partners<br/>under NDA]
-```
+**Goal:** Documented methodology + 3 pilot partnerships + 10-20 case studies in internal archive. No public archive yet.
 
-Every case has:
-- **Public view:** what happened, evidence, citations, corroborations.
-- **Protected view:** source identities, submitter metadata — accessible only under defined conditions.
-- **Integrity proof:** cryptographic hash chain + blockchain anchor.
-- **Durability:** multi-jurisdiction replicas.
+### Epic S1 — Methodology Documentation
+
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| S1.1 | Define case schema (per-incident structured record) | 1pw | — | Schema covers: incident type, geography, date, victims, evidence types, sources, corroborations |
+| S1.2 | Define evidence-quality grades (Tier-1 multi-corroborated → Tier-3 single-source) | 0.5pw | — | Grading rubric public; reviewable |
+| S1.3 | Define provenance chain requirements (C2PA where applicable; chain-of-custody for documents) | 1pw | — | Doc covers media, documents, witness statements separately |
+| S1.4 | Define witness/source-protection protocol | 1pw | — | Threat-model-aware protocol; reviewed by 2 HR-org partners |
+| S1.5 | Submission acceptance criteria (what we accept, what we don't) | 0.5pw | S1.1, S1.2 | Documented; reviewable |
+| S1.6 | Methodology peer review by 2+ established HR organizations | (external) | S1.1-S1.5 | Written feedback; revisions integrated |
+| S1.7 | Final methodology document published | 0.25pw | S1.6 | Layer-1 open content; permalinked |
+| **Total** | | **4.25pw + external review** | | |
 
 ---
 
-## Partnership Strategy
+### Epic S2 — Infrastructure Setup
 
-Shahid's value depends on **who uses it.** Not trying to be a market leader — trying to be infrastructure.
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| S2.1 | Provision archive primary site (Hetzner EU) | 0.5pw | — | Server live; SSH+key auth |
+| S2.2 | Provision replica site #1 (different jurisdiction; consider Iceland, Switzerland, or Malaysia) | 1pw | — | Server live; replication tested |
+| S2.3 | Provision replica site #2 (third jurisdiction) | 1pw | — | Server live; replication tested |
+| S2.4 | Postgres + append-only log table (cryptographic hash chain) | 1.5pw | S2.1 | Append-only enforcement at schema level; hash chain validates |
+| S2.5 | Object storage for media artifacts (encrypted at rest) | 1pw | S2.1 | Self-hosted MinIO or equivalent; encryption keys managed via Infisical |
+| S2.6 | Replication automation (primary → replicas) | 1pw | S2.1-S2.3 | Daily replication; integrity verified; lag <24h |
+| S2.7 | Tor hidden service for intake | 0.5pw | S2.1 | `.onion` address live; intake form accessible |
+| S2.8 | Backup integrity verification (daily) | 0.5pw | S2.4-S2.5 | Automated check; alert on hash mismatch |
+| **Total** | | **7pw** | | |
 
-### Primary partners we actively seek
+---
 
-| Org type | Specific examples | Relationship |
+### Epic S3 — Cryptographic Provenance
+
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| S3.1 | C2PA library integration (sign manifests; verify on submission) | 2pw | S2.5 | Manifests sign-and-verify on test artifacts |
+| S3.2 | Internal signing keys (HSM or hardware-backed) | 1pw | S2.5 | Keys provisioned; rotation documented |
+| S3.3 | Per-case hash chain (each case appended to log; previous hash included) | 1pw | S2.4 | Chain verifies; tamper detection works |
+| S3.4 | Public timestamping (OpenTimestamps anchor) | 1pw | S3.3 | Anchored to Bitcoin; verification reproducible |
+| S3.5 | Verification tools (third party can verify chain integrity from public data) | 1pw | S3.1-S3.4 | CLI tool published; reproducible |
+| **Total** | | **6pw** | | |
+
+---
+
+### Epic S4 — Submission Intake
+
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| S4.1 | Web intake form (over Tor + clearnet) | 1.5pw | S2.7, S2.4 | Form accepts: case description, evidence files, optional witness ID |
+| S4.2 | Encrypted intake (PGP option for high-sensitivity) | 1pw | S4.1 | Submitter can encrypt to Shahid public key; submission stored encrypted until processing |
+| S4.3 | Anonymous intake (zero-knowledge for highest sensitivity) | 2pw | S4.2 | Submitter encrypts to a key only the case-handling partner holds; Shahid never sees plaintext |
+| S4.4 | Intake triage UI (for partner organizations only) | 1pw | S4.1 | Partners can review pending submissions; assign |
+| S4.5 | Submission rate limiting + spam filtering | 0.5pw | S4.1 | Reasonable limits; bot-spam filtered |
+| **Total** | | **6pw** | | |
+
+---
+
+### Epic S5 — Verification Workflow
+
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| S5.1 | Verification queue (cases awaiting review) | 1pw | S4.4 | Queue visible to authorized verifiers |
+| S5.2 | Corroboration tooling (link cases to other cases / external sources) | 1.5pw | S2.4 | Cross-references queryable |
+| S5.3 | Decision recording (verified / requires-more / rejected, with reasoning) | 1pw | S5.1 | Decisions persist with verifier identity (could be partner-org rep) |
+| S5.4 | Verification grading per S1.2 rubric | 0.5pw | S5.3 | Grade attached to each case |
+| S5.5 | Source-protection check (no submission published without source-protection review) | 1pw | S5.3 | Required gate; documented in case record |
+| **Total** | | **5pw** | | |
+
+---
+
+### Epic S6 — Pilot Partnerships
+
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| S6.1 | Identify and approach 5-10 candidate partner orgs (HRW, 7amleh, +972, Forensic Architecture, Bellingcat, Access Now, Article 19, Reporters Without Borders, etc.) | 3pw | — | Initial outreach to all; responses tracked |
+| S6.2 | MoU template (legally reviewed; mission-aligned) | 1pw | (legal) | Template approved by counsel |
+| S6.3 | Sign 3 pilot partnerships | (negotiation) | S6.1, S6.2 | 3 signed MoUs; partners onboarded |
+| S6.4 | Partner training (use of intake, verification tools, security practices) | 1pw | S6.3 | Each partner has trained operators |
+| S6.5 | First 10-20 cases sourced from pilot partners | (operational) | S6.3, S2.4-S5.5 | 10-20 cases in archive with full provenance |
+| **Total** | | **5pw + negotiation** | | |
+
+---
+
+### v0.1 Total Effort Summary
+
+| Epic | Effort (pw) |
+|---|---|
+| S1 Methodology | 4.25 |
+| S2 Infrastructure | 7 |
+| S3 Cryptographic provenance | 6 |
+| S4 Submission intake | 6 |
+| S5 Verification workflow | 5 |
+| S6 Pilot partnerships | 5 + negotiation |
+| **Subtotal** | **33pw + negotiation** |
+| Buffer (15%) | 5pw |
+| **Total** | **~38pw + negotiation time** |
+
+**Team scenarios:**
+
+| Team | Calendar weeks |
+|---|---|
+| 1 person FT + partner-org collaboration | 38 weeks (~9 mo) |
+| 2 FT + partner collaboration | 19 weeks (~5 mo) |
+
+**v0.1 budget (rough):**
+
+| Item | Cost |
+|---|---|
+| 3 servers (primary + 2 replicas, 6 mo) | $1,500 |
+| Object storage (initial) | $300 |
+| Domain + Tor | $100 |
+| HSM / hardware keys | $1,000 |
+| External methodology peer-review honoraria (2 reviewers) | $4,000 |
+| Legal counsel (entity, MoUs, evidence standards review) | $8,000 |
+| Engineer salaries (1 FT × 9 mo, depending on funding model) | $50,000-90,000 |
+| Investigative lead (part-time) | $20,000-40,000 |
+| Misc (security audits, conferences, travel for partner meetings) | $10,000 |
+| **Total** | **$95,000-155,000** |
+
+Funded primarily via:
+- Mission-allocation from Basira (Phase 2 onward).
+- Foundation grants (Open Society, Ford, MacArthur, Luminate, Omidyar, Muslim philanthropic waqfs).
+
+---
+
+### v0.1 Exit Criteria (audit checklist)
+
+- [ ] Methodology document published; peer-reviewed by 2+ HR orgs
+- [ ] 3 partner MoUs signed
+- [ ] Infrastructure: primary + 2 replica sites operational; replication verified
+- [ ] Cryptographic chain operational; 3rd-party verification tool published
+- [ ] Tor + clearnet intake live; anonymous-mode tested
+- [ ] 10-20 cases in archive with full provenance
+- [ ] Source-protection protocol audited by HR-org partner
+
+---
+
+## v0.5 — Closed Pilot (target: 12 months after v0.1)
+
+**Goal:** Internal archive of 100-500 cases. First publicly-released case. Verification workflow mature.
+
+### Epics (summary)
+
+| Epic | Description | Effort |
 |---|---|---|
-| **Human rights org** | HRW, Amnesty, Access Now, Article 19 | MoU; mutual evidence sharing |
-| **Regional advocacy** | 7amleh (Palestine), Uyghur Human Rights Project, Kashmir-focused | Submission pipelines |
-| **Investigative journalism** | Bellingcat, +972, The Intercept, ProPublica | Joint investigations |
-| **Academic research** | Forensic Architecture, law school human-rights clinics, digital rights labs | Methodology research |
-| **Legal institutions** | International Federation for Human Rights, specific law firms with AI-harm practice | Evidence pipelines |
-| **Muslim-world orgs** | Muslim Advocates (US), Islamic Human Rights Commission | Community distribution |
+| B-S1 | Internal search + browse for partner orgs | 4pw |
+| B-S2 | Citation export (BibTeX, legal-citation formats) | 2pw |
+| B-S3 | Case-detail UI for case investigators | 3pw |
+| B-S4 | Multi-source corroboration view | 3pw |
+| B-S5 | First publicly-released case (with partner co-publication) | 1pw + coordination |
+| B-S6 | Onboard 2-3 additional partners | (negotiation) |
+| B-S7 | Annual external security review | (external) |
+| B-S8 | Source-protection review board (independent) | 2pw setup |
+| **Total** | | **15pw + ext + negotiation** |
 
-### Partners we do NOT take money from
+### v0.5 Exit Criteria
 
-Shahid's independence is its credibility. We will not accept funding from:
-
-- Any government or military.
-- Any AI company whose products we might document.
-- Any corporation whose products we might document.
-- Foundations whose trustees include the above with governance influence.
-
-Independence is the product.
+- [ ] 100-500 cases archived
+- [ ] 5+ partner orgs producing active submissions
+- [ ] First major news story citing Shahid as source
+- [ ] Legal panel review confirms court-admissibility in at least one jurisdiction
+- [ ] Funding runway secured for v1.0 (12+ months)
 
 ---
 
-## Competitive Landscape
+## v1.0 — Public Launch (target: 6 months after v0.5)
 
-### Who else does AI-harm documentation
+**Goal:** Public search + research API. First quarterly Pattern Report. 1,000+ cases.
 
-| Effort | Scope | Gap Shahid fills |
+### Epics (summary)
+
+| Epic | Description | Effort |
 |---|---|---|
-| **Bellingcat** | Open-source investigations generally | Not specific to AI harms; not a permanent archive |
-| **Forensic Architecture** | Architectural + forensic evidence for human-rights cases | Project-based; not an ongoing archive infrastructure |
-| **+972 / Local Call** | Israeli / Palestinian conflict reporting | Journalism, not archival |
-| **Human Rights Watch reports** | Broad human rights documentation | Not AI-specific; reports age; no dedicated archive |
-| **AlgorithmWatch** | European algorithmic accountability | Focus is algorithmic systems; not AI-enabled civilian harm specifically |
+| L-S1 | Public search & browse UI | 6pw |
+| L-S2 | Case-detail public pages | 4pw |
+| L-S3 | Researcher API (credentialed; rate-limited) | 5pw |
+| L-S4 | Citation tools (one-click "cite this case") | 1pw |
+| L-S5 | First Pattern Report (quarterly) — analysis tooling + report template | 4pw |
+| L-S6 | Permalink + DOI assignment for major cases | 2pw |
+| L-S7 | Multilingual case display (Arabic, Urdu, English minimum) | 4pw |
+| L-S8 | Docs site explaining methodology, how to use, how to contribute | 2pw |
+| **Total** | | **28pw** |
 
-**Shahid's niche:** the permanent, cryptographically-verified, AI-harm-specific archive. Not competing with these organizations — serving them. They document; Shahid remembers.
+### v1.0 Exit Criteria
+
+- [ ] 1,000+ verified cases public
+- [ ] Cited in 5+ major news publications
+- [ ] Cited in 1+ academic paper
+- [ ] Referenced in 1+ legal filing
+- [ ] 10+ partner organizations
+- [ ] First Pattern Report published
+
+---
+
+## v2.0 — Institutional (Y3+)
+
+| Epic | Description | Effort |
+|---|---|---|
+| I-S1 | ICC / UN tribunal pipeline (chain-of-custody hardening) | 8pw |
+| I-S2 | Legal filing support service (paralegal team) | (operational) |
+| I-S3 | Cross-jurisdictional mirror network (3+ regions, automatic) | 6pw |
+| I-S4 | Bellingcat / Forensic Architecture data integration | 4pw |
+| I-S5 | Researcher dashboard for academics | 4pw |
+| **Total** | | **22pw + operational** |
+
+### v2.0 Exit Criteria
+
+- [ ] 10,000+ cases
+- [ ] Referenced in ICC-level / UN proceeding
+- [ ] Methodology cited in academic literature
+- [ ] Multi-jurisdiction mirror network live
+
+---
+
+## v3.0 — Permanence (Y5+)
+
+Permanent archive infrastructure designed to outlast operating organization.
+
+(High-level only at this stage.)
 
 ---
 
 ## Risk Register (Shahid-specific)
 
-| Risk | Probability | Mitigation |
-|---|---|---|
-| Legal pressure to remove specific cases | High | Multi-jurisdiction mirrors; transparent standards; legal counsel retained |
-| State-level technical attack on archive | Medium | Geographic redundancy; offline backups; cryptographic integrity |
-| Source compromise (submitter identified) | Medium | Zero-knowledge intake; minimal metadata; legal protection for sources |
-| False or fabricated submissions | Medium | Rigorous verification methodology; corroboration requirements |
-| Misuse of archive to target individuals | Medium | Access controls on protected index; review of bulk queries |
-| Funding instability | High | Multiple funding streams; waqf commitment via Basira; diversified grants |
-| Politicization accusations | High | Neutral methodology; strict evidence standards; transparent process |
+| Risk | Probability | Impact | Mitigation |
+|---|---|---|---|
+| State-level legal demand to remove specific case | High | High | Multi-jurisdiction mirrors; counsel-mediated response; transparent challenge |
+| State-level technical attack on infrastructure | Medium | Severe | Geographic redundancy; offline backups; cryptographic integrity prevents silent tampering |
+| Source compromise (submitter identified) | Medium | Critical | Zero-knowledge intake; minimal metadata; strict source-protection protocol |
+| False / fabricated submission | Medium | High | Rigorous corroboration; multiple verifiers; grading rubric makes uncertainty visible |
+| Misuse to target individuals | Low | High | Access controls on protected index; bulk-query review |
+| Funding instability | High | Severe | Multiple streams: Basira mission allocation + grants + waqf; never one source >40% |
+| Politicization accusations | High | Moderate | Neutral methodology; consistent application; transparent process |
+| Partner org defection / capture | Medium | Moderate | MoU includes mission-alignment clauses; multi-partner redundancy |
 
 ---
 
-## Why Contributors Should Join Shahid
+## Open Questions
 
-### If you are an engineer
-
-Systems that have to last decades and survive adversarial nations are rare. Append-only cryptographically-verified archives, distributed across jurisdictions, with zero-knowledge intake — these are problems most commercial software never touches. Your work is measured not in features but in whether evidence survives.
-
-### If you are a researcher
-
-Shahid's methodology is research. Your contributions feed published work, academic citations, and genuinely improve the state of the art in AI-harm documentation.
-
-### If you are an investigative journalist
-
-Shahid is infrastructure for your craft. Your investigations become more durable; your sources are better protected; your evidence becomes more resilient to "fake" accusations. You make Shahid better by using it.
-
-### If you are a legal professional
-
-Building the evidence infrastructure that international courts will rely on for AI-era accountability. This is foundational, career-defining work.
-
-### If you are a witness
-
-Sometimes you witness something that others should know but cannot say safely. Shahid is designed so that you can contribute witness without compromising your safety. Zero-knowledge intake exists specifically for you.
-
-### If you are a supporter
-
-Financial support of Shahid — via grants, waqf contributions, or simply amplifying its work — funds the infrastructure that makes AI-era accountability possible.
+1. **Replica jurisdictions** — final selection (Iceland? Switzerland? Malaysia? Estonia? Costa Rica?). Council vote.
+2. **Anchoring chain** — Bitcoin via OpenTimestamps, or alternative? Trade-off: established vs. coin-volatile.
+3. **Researcher API gating** — pure-credentialed, or vouching-based? Risk of opening to bad-faith requesters.
+4. **Legal-filing support pricing** — free for HR orgs; what about for-profit law firms? Council decision.
 
 ---
 
-## How to Join Shahid
+## Cross-references
 
-See [`../../CONTRIBUTING.md`](../../CONTRIBUTING.md).
-
-Shahid-specific paths:
-
-1. **Engineers:** security-sensitive work; background checks likely; mentorship pairing.
-2. **Researchers / journalists:** submission partnerships; publication collaborations.
-3. **Legal:** pro bono or paid legal advisory; evidence-standards review.
-4. **Financial supporters:** grant applications welcomed; waqf-style commitments via the initiative's legal structure.
-
-Because Shahid handles sensitive information, contributor onboarding is more rigorous than Basira's. This is appropriate.
-
----
-
-## Cross-References
-
-- Overview: [`01-overview.md`](01-overview.md)
-- Main roadmap: [`../../ROADMAP.md`](../../ROADMAP.md)
-- Threat model: [`../../docs/08-project-threat-model.md`](../../docs/08-project-threat-model.md)
-- Financial model: [`../../FINANCIAL_MODEL.md`](../../FINANCIAL_MODEL.md)
-
----
-
-## Closing
-
-Shahid is the memory of an era when humans started letting algorithms decide who lives and who dies. The first generation of machines has already produced civilian harm at scale. The question is whether the record of that harm exists.
-
-We are building the record.
-
-*Inna lillahi wa inna ilayhi raji'un.* — *To Allah we belong, and to Him we return.*
+- Project sketch: `01-overview.md`
+- Threat model: `../../docs/08-project-threat-model.md`
+- Disclosure framework: `../../docs/03-open-vs-closed.md`
+- Council structure: `../../COMMITTEE.md`
+- Financial model: `../../FINANCIAL_MODEL.md`

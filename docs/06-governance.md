@@ -61,8 +61,9 @@ This protocol is a commitment, not an aspiration. It is in place from the first 
 
 **Changes introduced:**
 - **Maintainer group:** 3–5 trusted contributors who have demonstrated sustained commitment. They share code review, PR merging, and day-to-day decisions.
-- **Advisory council:** 5–10 people including scholars, technologists, ethicists, and impacted-community representatives. Advisory only; not decision-making. Meets quarterly. Minutes published.
-- **Written conflict-of-interest policy:** All contributors disclose financial, institutional, or political affiliations that could influence decisions.
+- **Ummah AI Council formed (initial 5-7 members).** The Council is the principle-level decision body for the Initiative. Members operate **pseudonymously** by default — full structure, vetting, and OPSEC in `COMMITTEE.md` and the registry in `private/COMMITTEE_REGISTRY.md`. The founder cedes principle-level decision authority to the Council as it forms; routine operations remain with founder + maintainers.
+- **Advisory roles:** non-voting advisors may be brought in for specific decisions (also pseudonymous).
+- **Written conflict-of-interest policy:** All contributors and Council members disclose financial, institutional, or political affiliations.
 - **Documented dispute resolution process.**
 
 ### Governance Phase G2 — Mature Institution

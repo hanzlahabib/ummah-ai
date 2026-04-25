@@ -1,504 +1,505 @@
-# Basira — Full Roadmap
+# Basira — Detailed Roadmap
 
-> بَصِيرَة — *Insight*
-> The first Muslim-built AI a billion users can actually trust.
-
----
-
-## The 30-Second Pitch
-
-**1.8 billion Muslims** use AI tools every day — ChatGPT, Gemini, generic search — that hallucinate hadiths, mistranslate Quran, misrepresent schools of thought, and treat classical Arabic as an afterthought. Muslim scholars watch their tradition get mangled by models trained on Reddit.
-
-**Basira is the alternative.** A citation-grounded, scholar-verified, multi-school AI research copilot for Islam — built openly by Muslims, for Muslims, serving every school of thought.
-
-**It is also the initiative's commercial anchor.** Basira's revenue funds everything else we build — the atrocity archive (Shahid), the counter-surveillance toolkit (Hisn), the platform auditing (Mizan). No Basira, no mission.
-
-**You are needed.** This roadmap shows exactly what we're building, when, and where you fit in.
+> Audit-grade. Specific tasks. Effort estimates. Acceptance criteria. Risks.
+> No fluff. Anyone can verify progress against this document.
 
 ---
 
-## Who This Is For
+## Status snapshot
 
-### As a user
+| Item | Value |
+|---|---|
+| Phase | 0 (foundation done; v0.1 build not yet started) |
+| Last update | 2026-04 |
+| Repo | https://github.com/hanzlahabib/ummah-ai |
+| Code commits to date | 0 |
+| Active contributors | 1 (founder) |
+| Paid staff | 0 |
+| Verifying scholars | 0 (recruitment pending Council formation) |
+| Council members | 0 |
+| Funding secured | $0 |
+| Funding committed (verbal) | $0 |
+| Legal entity | Not yet formed |
 
-| Persona | Pain today | What Basira gives them |
+---
+
+## How to audit this roadmap
+
+Anyone — contributor, scholar, journalist, regulator — can verify progress by checking:
+
+1. **Repo state:** Each task in this roadmap maps to one or more PRs / commits. Track via labels.
+2. **Issue tracker:** Each Epic has a corresponding GitHub issue with task checkboxes.
+3. **Public benchmarks:** Quality claims are backed by published evaluation results in `evals/` directory (when code exists).
+4. **Quarterly progress reports:** Published at end of each quarter, aligned with this roadmap.
+5. **Transparency report:** Annual, includes spending vs. budget per Epic.
+
+If a claim is made that contradicts what is in the repo, flag it as an issue.
+
+---
+
+## v0.1 Alpha — Build Scope (target: 6 calendar months from start)
+
+**Goal:** Working invite-only Islamic research copilot covering Quran + 6 Sunni hadith + 4 Shia hadith collections, with citation-grounded chat in Arabic, Urdu, English. 50 alpha users.
+
+**Total scope estimate:** 60-80 person-weeks. With 2-3 person team: 24-32 calendar weeks.
+
+---
+
+### Epic A1 — Project Setup & Infrastructure
+
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| A1.1 | Set up monorepo (pnpm workspaces) | 0.5pw | — | Repo runs `pnpm i && pnpm build` cleanly; CI passes |
+| A1.2 | Configure CI (GitHub Actions): lint, type-check, test, secret scan | 0.5pw | A1.1 | All checks green on a sample PR |
+| A1.3 | Provision Hetzner Cloud account, single VPS for development | 0.25pw | — | SSH access working; firewall configured |
+| A1.4 | Set up Postgres 16 + pgvector extension on dev VPS | 0.5pw | A1.3 | DB accessible; pgvector functions usable |
+| A1.5 | Set up Infisical (self-hosted) for secrets | 0.5pw | A1.3 | All env vars retrievable via SDK |
+| A1.6 | Domain registration (`ummah-ai.org` or alternative) + DNS via Cloudflare | 0.25pw | — | Domain resolves; SSL via Let's Encrypt |
+| A1.7 | Email infrastructure (transactional via Postmark / Resend) | 0.5pw | A1.6 | Verified sending; SPF/DKIM/DMARC pass |
+| A1.8 | Production deploy pipeline (Docker + GitHub Actions → Hetzner) | 1pw | A1.1, A1.3 | Push-to-deploy works end-to-end |
+| A1.9 | Basic observability (Grafana + Loki + Prometheus self-hosted) | 1pw | A1.3 | Dashboards visible; logs queryable |
+| A1.10 | Backup automation (encrypted Postgres backups to second region) | 0.5pw | A1.4 | Daily backup verified; restore tested |
+| **Total** | | **5.5pw** | | |
+
+**Risks for A1:**
+- Hetzner outage during setup → mitigation: pick stable VPS class; don't depend on novel features.
+- pgvector version compatibility → mitigation: pin Postgres version; document upgrade path.
+
+---
+
+### Epic A2 — Core Corpus Ingestion: Quran
+
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| A2.1 | Acquire Tanzil Quran data (XML + JSON) under documented license | 0.5pw | — | Local copy with provenance recorded |
+| A2.2 | Define Quran schema (per `../03-data-architecture.md`) | 0.5pw | A1.4 | Migration applied; types in code |
+| A2.3 | Ingestion script: Tanzil XML → Postgres rows | 1pw | A2.1, A2.2 | 6,236 verses inserted; content-hash matches source |
+| A2.4 | Translation ingestion: Yusuf Ali, Pickthall, Sahih International (English) | 0.5pw | A2.3 | 3 translations linked to verses |
+| A2.5 | Translation ingestion: Maulana Maududi, Tafheem-ul-Quran (Urdu) — 2 editions | 0.5pw | A2.3 | 2 Urdu translations linked |
+| A2.6 | Arabic normalization profile (hamza, tatweel, diacritics) | 1pw | — | Documented profile; test cases pass |
+| A2.7 | Embedding generation (OpenAI text-embedding-3-large) | 0.5pw | A2.3, A2.6 | All 6,236 verses embedded; pgvector index built |
+| A2.8 | Verification: hash check vs. Tanzil source on each ingestion | 0.25pw | A2.3 | Automated check in CI; mismatch fails build |
+| **Total** | | **4.75pw** | | |
+
+**Risks for A2:**
+- Tanzil license changes → mitigation: archive current snapshot under `corpus/quran/source/`; document version.
+- Embedding model deprecated → mitigation: ADR-006 defines migration path to BGE-M3.
+
+---
+
+### Epic A3 — Core Corpus Ingestion: Hadith Sunni (6 + Muwatta)
+
+Collections: Bukhari, Muslim, Abu Dawud, Tirmidhi, Nasa'i, Ibn Majah, Muwatta Malik.
+
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| A3.1 | Survey legitimate sources (Sunnah.com API, openhadith.org, etc.); document licensing | 0.5pw | — | License audit complete; primary source chosen |
+| A3.2 | Define hadith schema (book, chapter, hadith#, gradings, isnad) | 0.5pw | A1.4 | Migration applied |
+| A3.3 | Ingestion: Sahih al-Bukhari (~7,500 hadiths) | 1pw | A3.1, A3.2 | All hadiths inserted; gradings preserved |
+| A3.4 | Ingestion: Sahih Muslim (~7,500 hadiths) | 1pw | A3.1, A3.2 | Same |
+| A3.5 | Ingestion: Sunan Abu Dawud (~5,000) | 0.75pw | | Same |
+| A3.6 | Ingestion: Jami' at-Tirmidhi (~4,000) | 0.75pw | | Same |
+| A3.7 | Ingestion: Sunan an-Nasa'i (~5,500) | 0.75pw | | Same |
+| A3.8 | Ingestion: Sunan Ibn Majah (~4,400) | 0.75pw | | Same |
+| A3.9 | Ingestion: Muwatta Malik (~1,800) | 0.5pw | | Same |
+| A3.10 | English translations linked (where openly licensed) | 1pw | A3.3-A3.9 | At least 1 English translation per collection |
+| A3.11 | Urdu translations linked where available | 1pw | | At least 3 collections have Urdu |
+| A3.12 | Embedding generation for all hadiths | 1pw | A3.3-A3.9, A2.7 | ~36,000 hadiths embedded |
+| A3.13 | Cross-reference graph (which hadith references which Quran verse) | 1.5pw | A2.3, A3.3-A3.9 | Bidirectional links queryable |
+| **Total** | | **11.25pw** | | |
+
+**Risks for A3:**
+- Source data quality varies — manual spot-check required → mitigation: scholar review of random sample (Epic A6).
+- Licensing changes mid-ingestion → mitigation: archive snapshots under provenance metadata.
+
+---
+
+### Epic A4 — Core Corpus Ingestion: Hadith Shia (4 + Nahj al-Balagha)
+
+Collections: Al-Kafi, Man La Yahduruhu al-Faqih, Tahdhib al-Ahkam, Al-Istibsar, Nahj al-Balagha.
+
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| A4.1 | Source identification (al-islam.org, thaqalayn.net, hadith.al-shia.org) | 0.5pw | — | Sources documented; licensing verified |
+| A4.2 | Schema mapping (Shia collections have different structure) | 0.5pw | A3.2 | Schema extends A3.2 cleanly |
+| A4.3 | Ingestion: Al-Kafi (~16,000 narrations across 8 vols) | 1.5pw | A4.1, A4.2 | All narrations ingested |
+| A4.4 | Ingestion: Man La Yahduruhu al-Faqih | 1pw | | Same |
+| A4.5 | Ingestion: Tahdhib al-Ahkam | 1pw | | Same |
+| A4.6 | Ingestion: Al-Istibsar | 0.75pw | | Same |
+| A4.7 | Ingestion: Nahj al-Balagha | 0.5pw | | Same |
+| A4.8 | English translations linked | 1pw | A4.3-A4.7 | At least 1 per major work |
+| A4.9 | Urdu/Persian translations linked | 1pw | | Where available |
+| A4.10 | Embedding generation | 1pw | A4.3-A4.7 | ~25,000 narrations embedded |
+| **Total** | | **8.25pw** | | |
+
+**Risks for A4:**
+- Shia digital corpora are less complete than Sunni — gaps possible → mitigation: document gaps explicitly; scholar review identifies priorities.
+- Some scholarly editions are publisher-restricted → mitigation: prefer public-domain editions; license modern editions if needed.
+
+---
+
+### Epic A5 — RAG Pipeline (Retrieval + Generation)
+
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| A5.1 | Hybrid retrieval (BM25 + dense vector) — Postgres `tsvector` + pgvector | 2pw | A2.7, A3.12, A4.10 | Returns top-50 candidates in <500ms p95 |
+| A5.2 | Query understanding (language detect, intent, Arabic normalization) | 1pw | A2.6 | Routes correctly across 100-query test set |
+| A5.3 | Cross-encoder reranking (BGE-reranker or equivalent) | 1pw | A5.1 | Improves top-10 relevance vs baseline by ≥15% on benchmark |
+| A5.4 | Citation enforcement: every claim must reference retrieved chunk | 2pw | A5.3 | 0 hallucinated citations in 500-query benchmark |
+| A5.5 | Multi-school answer template (when sources disagree across schools) | 1.5pw | A5.4 | Schools surfaced explicitly per `09-content-policy.md` |
+| A5.6 | Refusal policy (no fatwas, no targeting, etc.) | 1pw | A5.4 | Refuses 100% of test set of disallowed prompts |
+| A5.7 | Streaming response (SSE) | 0.5pw | A5.4 | First token <1s p95 |
+| A5.8 | Provider abstraction (Claude primary, Groq fallback) | 1pw | — | Switches providers on failure within 2s |
+| **Total** | | **10pw** | | |
+
+**Risks for A5:**
+- Cross-encoder for Arabic underperforms → mitigation: evaluate multiple models; budget time for fine-tuning if needed.
+- LLM provider rate limits during peak → mitigation: provider abstraction; monitor and adjust.
+
+---
+
+### Epic A6 — Scholar Verification Workflow
+
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| A6.1 | Scholar onboarding portal (sign-in, role assignment) | 1pw | A1.7 | 5 scholars onboarded |
+| A6.2 | Review queue UI: scholar sees content awaiting verification | 1.5pw | A6.1 | Queue displays correctly; can approve/reject/revise |
+| A6.3 | Decision recording (verification record per `03-scholar-verification.md`) | 1pw | A6.2 | Records persist; queryable; auditable |
+| A6.4 | Cross-school review routing (multi-tradition content → multiple scholars) | 1pw | A6.3 | Routing works per content metadata |
+| A6.5 | Compensation tracking (per-review counts; for invoicing) | 0.5pw | A6.1 | Monthly report generates per scholar |
+| A6.6 | Public verification badge (clickable on any verified content) | 1pw | A6.3 | UI shows scholar pseudonymous badge + credentials category |
+| **Total** | | **6pw** | | |
+
+**Risks for A6:**
+- Insufficient scholars willing in alpha phase → mitigation: smaller corpus first; recruit aggressively in parallel.
+- Scholar burnout from too much work → mitigation: paid retainers; cap reviews per month.
+
+---
+
+### Epic A7 — Web App (Next.js Frontend)
+
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| A7.1 | Next.js 16 App Router scaffold | 0.5pw | A1.1 | Runs locally; deploys to Vercel |
+| A7.2 | Auth integration (Better Auth, passkeys + email magic-link) | 1.5pw | A1.4 | Sign-in / sign-up flows work |
+| A7.3 | Chat UI (streaming responses, citation rendering) | 2pw | A5.7 | Citations clickable; streaming visible |
+| A7.4 | Citation viewer (source-reader for Quran/hadith with surrounding context) | 2pw | A2.3, A3.3-A3.9, A4.3-A4.7 | RTL Arabic; translations side-by-side |
+| A7.5 | i18n: Arabic, Urdu, English UI strings | 1pw | A7.1 | UI fully translated; RTL works |
+| A7.6 | High-threat mode toggle | 0.5pw | A7.2 | Sessions ephemeral; no logs server-side |
+| A7.7 | Settings (school preference, language, theme) | 0.5pw | A7.2 | Settings persist per user |
+| A7.8 | Accessibility audit (WCAG AA baseline) | 1pw | A7.3-A7.7 | Lighthouse a11y ≥95 |
+| **Total** | | **9pw** | | |
+
+**Risks for A7:**
+- RTL layout bugs in shared components → mitigation: test both directions throughout.
+- Accessibility regressions on iteration → mitigation: a11y in CI.
+
+---
+
+### Epic A8 — Evaluation Suite
+
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| A8.1 | Correctness benchmark (200 questions, known answers + sources) | 2pw | A5.4 | Pass rate ≥85% on benchmark |
+| A8.2 | Hallucination benchmark (50 trap questions for invented references) | 1pw | A5.4 | 0 hallucinated citations |
+| A8.3 | Bias benchmark (50 multi-school questions) | 1pw | A5.5 | School representation within 10% balance |
+| A8.4 | Refusal benchmark (50 disallowed prompts) | 0.5pw | A5.6 | Refuses 100% |
+| A8.5 | Multilingual benchmark (run A8.1 in Arabic, Urdu, English) | 0.5pw | A8.1 | Quality drop <15% across languages |
+| A8.6 | Automated evaluation in CI (run subset on every PR; full suite on main merge) | 1pw | A8.1-A8.5 | CI gates merges on evaluation results |
+| A8.7 | Public benchmark scores published in repo | 0.25pw | A8.6 | `evals/results/` directory updated weekly |
+| **Total** | | **6.25pw** | | |
+
+**Risks for A8:**
+- Benchmark gaming pressure as visible scores → mitigation: rotate held-out set; scholar adversarial review.
+
+---
+
+### Epic A9 — Security & Privacy
+
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| A9.1 | Secret scanning in CI (gitleaks) | 0.25pw | A1.2 | Prevents accidental commits |
+| A9.2 | Rate limiting (per-user, per-IP) at API layer | 1pw | A7.2 | DOS attempts mitigated; legitimate users unaffected |
+| A9.3 | Layer 4 encryption (column-level for queries, billing) | 1pw | A1.4 | Encrypted at rest; key in Infisical |
+| A9.4 | Audit logging (admin access; sensitive operations) | 0.75pw | A1.4 | Logs queryable; retention defined |
+| A9.5 | Penetration test (external) | (external) | — | Findings remediated before public alpha |
+| A9.6 | Privacy policy implementation (data deletion, export) | 1pw | A1.4 | User can delete; export works |
+| **Total** | | **4pw + external** | | |
+
+**Risks for A9:**
+- Pen-test findings critical → mitigation: budget 2pw cushion for fixes.
+
+---
+
+### Epic A10 — Alpha Launch
+
+| ID | Task | Effort | Dependencies | Acceptance criteria |
+|---|---|---|---|---|
+| A10.1 | Invitation system (waitlist + invite codes) | 0.5pw | A7.2 | 50 invites sent and tracked |
+| A10.2 | Feedback widget integrated everywhere | 0.5pw | A7.3 | Submissions arrive at Council Secretary inbox |
+| A10.3 | Documentation site (/docs) explaining the alpha + how to give feedback | 0.5pw | — | Public docs live |
+| A10.4 | Status page (public uptime monitoring) | 0.25pw | A1.9 | Visible to invited users |
+| A10.5 | Onboarding email sequence | 0.25pw | A1.7 | Welcome + tutorial + feedback prompt |
+| **Total** | | **2pw** | | |
+
+---
+
+### v0.1 Total Effort Summary
+
+| Epic | Effort (pw) |
+|---|---|
+| A1 Infrastructure | 5.5 |
+| A2 Quran ingestion | 4.75 |
+| A3 Hadith Sunni | 11.25 |
+| A4 Hadith Shia | 8.25 |
+| A5 RAG pipeline | 10 |
+| A6 Scholar verification | 6 |
+| A7 Web app | 9 |
+| A8 Evaluation suite | 6.25 |
+| A9 Security & privacy | 4 |
+| A10 Alpha launch | 2 |
+| **Subtotal** | **66.5pw** |
+| Buffer (15%) | 10pw |
+| **Total** | **76.5pw** |
+
+**Team scenarios:**
+
+| Team | Calendar weeks |
+|---|---|
+| 1 person full-time | 76 weeks (1.5 yrs) |
+| 2 people full-time | 38 weeks (~9 mo) |
+| 3 people full-time | 26 weeks (~6 mo) |
+| 1 FT + 2 part-time | 35 weeks (~8 mo) |
+
+**v0.1 budget (rough):**
+
+| Item | Cost |
+|---|---|
+| Hetzner infrastructure (6 mo) | $300 |
+| Domain + DNS + email | $100 |
+| LLM API budget (alpha-scale) | $500 |
+| OpenAI embeddings (one-time + maintenance) | $200 |
+| Scholar retainers (5 scholars × 6 mo × $500/mo) | $15,000 |
+| External pen-test | $5,000 |
+| Legal (entity formation + contracts) | $3,000 |
+| Misc (tools, security keys, etc.) | $400 |
+| **Buffer 20%** | $4,900 |
+| **Total** | **~$29,400** |
+
+If team is mostly volunteer + founder funded: $29K is the cash burn for v0.1.
+
+---
+
+### v0.1 Exit Criteria (audit checklist)
+
+A reviewer should be able to verify each:
+
+- [ ] All Epic A1-A10 tasks completed (visible in repo issue tracker)
+- [ ] Quran corpus ingested with provenance hashes matching Tanzil
+- [ ] 6 Sunni hadith collections + Muwatta ingested (~36,000 narrations)
+- [ ] 4 Shia hadith collections + Nahj al-Balagha ingested
+- [ ] 5+ verifying scholars onboarded; first 100 verified content units published
+- [ ] Evaluation suite passing thresholds (correctness ≥85%, hallucination 0, bias balanced, refusal 100%)
+- [ ] Web app live at `https://alpha.basira.ummah-ai.org` (or equivalent)
+- [ ] 50 alpha users invited; 30+ have logged in at least 3 times
+- [ ] External pen-test report received and findings remediated
+- [ ] Privacy policy implemented; user data export works; deletion works
+- [ ] First quarterly transparency entry published
+
+If any checkbox is unchecked, v0.1 is not done.
+
+---
+
+## v0.5 Beta — Build Scope (target: 9 calendar months after v0.1)
+
+**Goal:** Limited public beta with tafseer + fiqh subset + paid Plus tier + first institutional pilots. 1,000+ users.
+
+### Epics (summary)
+
+| Epic | Description | Effort |
 |---|---|---|
-| **Imam preparing khutbah** | Hours of manual hadith verification across multiple sources | Cross-tradition verified hadith search with grading, in seconds |
-| **Madrasa student** | Only textbook in front of them, no way to cross-reference | Full classical library with Arabic fidelity and Urdu/English side-by-side |
-| **Convert learning Islam** | Random YouTube videos of uncertain quality | Scholar-verified answers with citations, school-by-school |
-| **Muslim journalist** | No trustworthy source for Islamic context on a news story | Rapid, citation-grounded background research |
-| **Islamic finance analyst** | Shariah compliance research takes weeks per product | Sharia database with fatawa from multiple authorities |
-| **Hospital / prison chaplain** | Must answer complex questions on the spot with no reference | Mobile-friendly citation-ready reference |
-| **Scholar doing academic research** | Digital Arabic corpus tools are fragmented and poor | Professional-grade scholarly search with full provenance |
-| **Parent teaching children Islam** | No kid-safe Islamic learning tool that respects their madhhab | Family tier with age-appropriate filtering + madhhab defaults |
+| B1 | Tafseer ingestion: Ibn Kathir + al-Mizan + 1 contemporary | 8pw |
+| B2 | Fiqh subset: ibadat across 5 schools (Hanafi, Maliki, Shafi'i, Hanbali, Ja'fari) | 12pw |
+| B3 | School-filter configuration UX | 2pw |
+| B4 | Saved libraries + multi-turn sessions | 3pw |
+| B5 | Payment infrastructure (Stripe) | 3pw |
+| B6 | Plus tier features (higher limits, export, priority) | 2pw |
+| B7 | Institutional admin console v1 (user mgmt, school defaults) | 4pw |
+| B8 | Institutional pilot onboarding (3-5 pilots) | 4pw |
+| B9 | Public waitlist → tranched signups | 2pw |
+| B10 | Evaluation suite v2 (expanded benchmarks) | 3pw |
+| B11 | Self-hosted embedding migration evaluation (BGE-M3) | 4pw (research-only) |
+| B12 | Mobile-responsive UX polish | 2pw |
+| **Total** | | **49pw** |
 
-### As a contributor
+### v0.5 Exit Criteria
 
-| You are | What you build | What you get |
+- [ ] Tafseer + initial fiqh corpora live with scholar verification
+- [ ] Paid Plus tier launched with regional pricing
+- [ ] At least 3 paying institutional pilots signed
+- [ ] $3-10K MRR
+- [ ] 1,000+ active users
+- [ ] 15+ verifying scholars
+- [ ] Eval suite v2 results published
+- [ ] First Council formed (5-7 members) per `COMMITTEE.md`
+
+---
+
+## v1.0 Public Launch — Build Scope (target: 6 calendar months after v0.5)
+
+**Goal:** Full public launch. Free + Plus + Institutional tiers. 6 languages. 10,000+ users.
+
+### Epics (summary)
+
+| Epic | Description | Effort |
 |---|---|---|
-| **Senior dev (TypeScript/Python)** | RAG pipeline, retrieval, infrastructure | Paid role once funded; meanwhile MIT-licensed portfolio work + network |
-| **ML researcher** | Arabic NLP, fine-tuning, evaluation | Publishable benchmarks (Layer 1 open); co-author on papers |
-| **Scholar** | Verification, curation, advisory | **Paid** per-review + retainers; see `03-scholar-verification.md` |
-| **Translator (Urdu/Arabic/Bahasa/...)** | UI + scholarly content localization | Bounties for substantive translation; named credit |
-| **UX/UI designer** | User-facing interfaces that respect Muslim aesthetic + accessibility | Public portfolio work; paid contracts for specific launches |
-| **Security engineer** | Privacy-preserving architecture, threat modeling | Paid security audits once funded; reputation work |
-| **Student / junior dev** | Issue triage, docs, tests, small features | Mentorship + public commits + potential paid path |
+| L1 | Bengali, Bahasa, Turkish UI + content scaffolding | 6pw |
+| L2 | Source-reader (full classical text reading UI) | 6pw |
+| L3 | Family plan + parental controls | 3pw |
+| L4 | Institutional admin console v2 (SSO, custom branding) | 6pw |
+| L5 | Public benchmarks dashboard (live scores) | 2pw |
+| L6 | First Annual Transparency Report published | 1pw |
+| L7 | Waqf revenue commitment activated + first audit | (legal) |
+| L8 | External security audit | (external) |
+| L9 | Marketing site + onboarding redesign | 4pw |
+| L10 | Performance optimization (latency, throughput) | 4pw |
+| **Total** | | **32pw** |
+
+### v1.0 Exit Criteria
+
+- [ ] 6 languages live (Arabic, Urdu, English, Bengali, Bahasa, Turkish)
+- [ ] Free + Plus + Institutional tiers operational
+- [ ] 10,000+ MAU
+- [ ] $20-50K MRR
+- [ ] 25+ verifying scholars
+- [ ] First Annual Transparency Report published
+- [ ] External security audit passed; no critical findings
+- [ ] Waqf 20% mission allocation legally binding + first quarterly transfer to Track B
 
 ---
 
-## Product Vision — The Three-Sentence Test
+## v1.5 Reach (calendar Y2-Y3)
 
-We test every feature against this sentence:
-
-> *"This feature helps a 19-year-old Muslim in [Lahore / Lagos / Jakarta / Dearborn / Cairo] access 1400 years of Islamic scholarship in their own language, with honest scholarly plurality, at a price they can afford, without their data being sold, without being lectured, and without being told which school is 'correct'."*
-
-If a feature doesn't serve that sentence, it doesn't ship.
-
----
-
-## Version Roadmap
-
-```mermaid
-timeline
-    title Basira version roadmap
-    section v0.1 Alpha (invite-only)
-        Q4 2026 : Core Quran + 6 Sunni hadith + 4 Shia hadith collections
-                : Citation-grounded chat in Arabic/Urdu/English
-                : 50 invited users
-                : First 5 verifying scholars
-    section v0.5 Beta (limited public)
-        Q1-Q2 2027 : Tafseer layer (Ibn Kathir + al-Mizan)
-                   : Basic fiqh (ibadat subset)
-                   : School-filter configuration
-                   : High-threat mode
-                   : 3-5 institutional pilots
-                   : Paid Plus tier available
-    section v1.0 Launch
-        Q3 2027 : Full free + Plus + Institutional tiers
-                : Bengali, Bahasa, Turkish added
-                : Citation viewer with source-reader
-                : Saved libraries
-                : Family plan
-                : 10,000+ users
-    section v1.5 Reach
-        Q2 2028 : Mobile apps (iOS + Android)
-                : Voice interface (Arabic recitation)
-                : Offline mode
-                : Swahili, Hausa, Persian added
-                : 100,000+ users
-    section v2.0 Platform
-        2029 : Developer API (rate-limited, priced)
-             : Third-party integrations
-             : Institutional admin console v2
-             : Rapid-response current events module
-    section v3.0 Sovereign
-        2030+ : Self-hosted sovereign models
-             : Own compute backbone
-             : 1M+ users
-             : Full scholarly library (all major fiqh works)
-```
-
----
-
-## v0.1 — Alpha (Q4 2026)
-
-### What ships
-
-#### User-visible
-
-- **Web app only** — no mobile yet.
-- **Three supported languages:** Arabic, Urdu, English. UI in all three, content in all three.
-- **Core corpus:** complete Quran, 6 Sunni hadith collections + Muwatta, 4 Shia hadith collections + Nahj al-Balagha.
-- **Citation-grounded chat:** every scholarly claim links to a primary source passage.
-- **Citation viewer:** click any citation → opens source with surrounding context + translations.
-- **Invite-only access:** 50 users (mix of scholars, students, journalists).
-- **Feedback button** everywhere — this is a beta; we listen aggressively.
-
-#### Behind the scenes
-
-- Hybrid retrieval (BM25 + dense embedding) operational.
-- First cross-encoder reranker deployed.
-- Scholar verification workflow with 5 verifying scholars across Sunni + Shia + Ibadi.
-- Evaluation suite v1: correctness, hallucination, bias, refusal benchmarks.
-- Observability + privacy infra complete.
-- Hosting on Hetzner EU per ADR-016.
-
-### What explicitly does NOT ship in v0.1
-
-- Payments.
-- Institutional admin console.
-- Mobile apps.
-- Voice.
-- Additional languages.
-- Fiqh corpora (initial version is Quran + Hadith focused).
-- Public sign-ups (invite only).
-
-### Success criteria for v0.1
-
-- 50 alpha users give substantive feedback over 30 days.
-- Evaluation suite shows zero hallucinated citations in 500-query test set.
-- At least 3 of 5 verifying scholars publicly endorse their tradition's content.
-- Foundation advisory council reviews alpha and approves move to v0.5.
-
-### Who we need to ship v0.1
-
-- 1 primary maintainer (founder + 1-2 collaborators) full-time or near-full-time.
-- 5 verifying scholars (paid retainers).
-- 2-3 part-time contributors (Arabic NLP, UI, evals).
-- Occasional: legal counsel, accountant.
-
----
-
-## v0.5 — Beta (Q1-Q2 2027)
-
-### What adds on top of v0.1
-
-#### User-visible
-
-- **Tafseer layer** — Ibn Kathir, al-Mizan, + 1 contemporary scholar's work. Searchable, cross-referenced with Quran verses.
-- **Fiqh subset** — focused practical coverage (wudu, salah, fasting, zakat basics) across Hanafi, Maliki, Shafi'i, Hanbali, Ja'fari.
-- **School-filter configuration** — user can set "Shafi'i-first view" or stay full-spectrum; always visible which is active.
-- **High-threat mode** — activated per-session; no server-side logs; client-side only state.
-- **Saved passages** — bookmark content for later.
-- **Multi-turn sessions** — conversational follow-ups preserve context.
-- **Limited public signups** — waitlist; growing by inviting tranches.
-- **Paid Plus tier** — available to signed-up users; pricing detailed below.
-
-#### Behind the scenes
-
-- First 3-5 **institutional pilots:** likely a mix of:
-  - 1 Islamic university (full-semester pilot with students)
-  - 1 madrasa network (multi-campus)
-  - 1 Islamic-finance firm (Shariah-compliance use case)
-  - 1 chaplaincy program (hospital or prison)
-  - 1 Islamic education platform (content partnership)
-- Payment infrastructure (Stripe) operational.
-- Institutional admin console v1 (simple): user management, school defaults.
-- Arabic morphological analyzer integrated (root-aware search).
-- Evaluation suite v2: expanded benchmarks, multilingual coverage.
-- 15+ verifying scholars.
-
-### Monetization — first revenue
-
-**Plus tier (individual, B2C):**
-
-- Target: $5 USD / month globally, with regional pricing (lower in Pakistan, Bangladesh, Indonesia, Egypt, Nigeria).
-- What's included: higher daily query limits, saved libraries, multi-turn context, export, priority latency.
-- Free tier remains genuinely usable — not a "free-trial" teaser.
-
-**Institutional pilots (B2B):**
-
-- Tiered pricing based on user seats and customization needs.
-- Rough ranges:
-  - Madrasa / small institution: $50-200 / month.
-  - University department: $500-2,000 / month.
-  - Islamic bank / fintech: $2,000-20,000 / month (enterprise terms).
-- Pilots are discounted / free for first 6 months in exchange for feedback and case studies.
-
-**Revenue target exit of v0.5:**
-- $3-10K MRR
-- 1-3 paying institutional customers
-
-### Who we need to ship v0.5
-
-- 3-5 part-time or full-time team members.
-- 15 verifying scholars on retainer.
-- Design capacity (for the admin console and institutional UX).
-- Legal capacity (for institutional contracts, pilot agreements).
-
----
-
-## v1.0 — Public Launch (Q3 2027)
-
-### What ships at launch
-
-#### User-visible
-
-- **Full free tier + Plus tier + Institutional tier** — all live simultaneously.
-- **6 languages:** Arabic, Urdu, English, Bengali, Bahasa, Turkish.
-- **Source-reader** — a beautiful, accessible interface for reading classical texts with:
-  - Arabic original in canonical script
-  - Side-by-side translations
-  - Inline scholarly commentary
-  - Grading (for hadith)
-  - Cross-references visible on side
-  - Dark mode
-  - Reading progress tracking
-- **Family plan** — up to 5 accounts with optional parental controls for children.
-- **Institutional admin console v2** — proper admin tools: user management, roles, analytics (privacy-preserving — admin sees aggregate usage, not individual queries), school configuration, custom glossaries, invoicing.
-- **Public evaluation dashboard** — our own benchmark scores visible to the public. Radical transparency.
-- **First Transparency Report** — annual publication covering user count, revenue, operations, mission allocation.
-
-#### Behind the scenes
-
-- **Autoscaling infrastructure** — can handle 10x current load without pager duty.
-- **Full CI/CD pipeline** for safe iteration.
-- **External security audit completed** and findings resolved.
-- **Waqf revenue commitment legally binding** — 20% floor audited.
-- **Legal entity fully operational** — partnerships, contracts, banking, insurance.
-
-### Success criteria for v1.0
-
-- 10,000+ active users (MAU).
-- $20-50K MRR.
-- 5-15 paying institutional customers.
-- 25+ verifying scholars.
-- Measurable NPS / satisfaction among scholars, institutional users, and individual users.
-- Public evaluation benchmarks meet published thresholds.
-- Transparency Report published on schedule.
-
----
-
-## v1.5 — Reach (2028)
-
-### What expands in v1.5
-
-#### User-visible
-
-- **iOS and Android native apps** — not mobile web, actual native apps with offline support.
-- **Voice interface** — ask questions verbally; hear Quranic recitation correctly pronounced; listen to answers read aloud (where culturally appropriate).
-- **Offline mode** — core corpus available locally on device; queries work without internet for most scholarly lookups.
-- **Swahili, Hausa, Persian** added (bringing us to 9 languages).
-- **Rapid-response current events module** — when a major Islamic scholarly event occurs (e.g. a prominent scholar passes away, a major ruling is issued), relevant curated content is surfaced.
-- **Community Q&A** — users can flag questions for scholar response; popular questions answered via the platform; answer quality visible.
-
-#### Behind the scenes
-
-- **Second data center** online for latency (Malaysia / UAE for APAC/MENA users).
-- **Self-hosted embedding model** (BGE-M3 or successor) operational — reducing dependency on OpenAI for embeddings.
-- **Enhanced Arabic NLP** — morphology, diacritic-aware, classical syntax parsing.
-- **Scholar network:** 50+ active verifying scholars spanning 10+ countries.
-- **Ecosystem ripple:** 3-5 third-party products built on Basira's open tooling.
-
-### Monetization — growth
-
-Revenue target at v1.5: **$500K-2M ARR**.
-
-**Mix:**
-- B2C Plus tier: ~50% of revenue
-- Institutional (madaris, universities, chaplaincy, finance): ~40% of revenue
-- API usage (early developer access, not full public API yet): ~10% of revenue
-
-**New revenue streams:**
-- **Corporate / SaaS integrations** — Muslim-world banks, HR platforms, halal certification bodies licensing scholarly data for internal workflows.
-- **Content partnerships** — Muslim media outlets license curated scholarly content for their properties.
-
-### Contributor growth
-
-- **Team:** 8-15 full-time / near-full-time.
-- **Paid contributors:** 20+ on various contracts.
-- **Scholarly advisors:** 50+ paid scholars.
-- **Volunteer open-source contributors:** 100+ PRs merged in the past year.
-
----
-
-## v2.0 — Platform (2029)
-
-### What v2.0 becomes
-
-Basira moves from *product* to *platform*. Third parties build on Basira, not just consume it.
-
-#### User-visible (to developers)
-
-- **Public Developer API** — authenticated, rate-limited, usage-priced. Any developer can query scholarly sources through Basira's infrastructure.
-- **SDK** in multiple languages.
-- **Developer docs and examples.**
-- **API marketplace** — pre-built integrations: WhatsApp bots, Slack/Teams helpers, WordPress plugins for Muslim publications, LMS connectors for madaris.
-
-#### Institutional
-
-- **Admin console v3** — white-label options, custom branding for large institutions, SSO (SAML/OIDC), custom scholarly glossaries, per-institution fine-tuning on their curricula.
-- **Chaplaincy program partnership** — hospitals, prisons, military chaplaincy at scale.
-- **National Muslim education integrations** — public curriculum licensing deals in Muslim-majority countries.
-
-#### Governance
-
-- **Advisory council expanded** — 20+ scholars across traditions.
-- **Community council** — elected representatives per `docs/06-governance.md` Phase G2.
-- **First board of trustees** including mission guardians.
-
-### Monetization at v2.0
-
-Revenue target: **$5-20M ARR**.
-
-Streams:
-- B2C Plus (+ Family): ~30%
-- Institutional subscriptions: ~40%
-- API / developer usage: ~15%
-- Enterprise / white-label: ~10%
-- Partnerships / licensing: ~5%
-
-At this scale, the **20% mission allocation** is $1-4M / year funding Shahid, Hisn, Mizan, scholarly grants, and initial sovereignty work.
-
----
-
-## v3.0 — Sovereign (2030+)
-
-### What changes in v3.0
-
-Basira stops depending on external frontier AI labs for the most critical capabilities.
-
-- **Self-hosted sovereign models** — fine-tuned classical Arabic LLM trained on scholarly corpus. Either ourselves trained from an open base, or fine-tuned from a partnered Muslim-world foundation model (Jais, Fanar, Noor, or successor).
-- **Compute backbone** — GPU infrastructure partnerships with Gulf / Malaysian / Indonesian sovereign tech investments.
-- **Edge deployment** — Basira core can run on-device for privacy-critical deployments (activists, sensitive institutions).
-- **Research output** — publish novel Arabic NLP research; contribute to Muslim-world academic AI capacity.
-
-### Vision scale
-
-- **1M+ MAU** across languages and regions.
-- **$20-100M ARR** commercially.
-- **20%+ to mission** = $4-20M / year funding the full defensive portfolio and more.
-- **100+ paid scholars** + significant grant program.
-- **Multiple downstream Muslim AI companies** built on Basira's open layers.
-
----
-
-## Feature Backlog (Roadmap but Unscheduled)
-
-Things we want but haven't committed to specific versions:
-
-- **Arabic OCR / manuscript search** — photograph a classical manuscript page, search its content.
-- **Quranic recitation teaching** — tajwid coaching via audio analysis.
-- **Ijtihad tools** — advanced tools for qualified scholars doing their own research.
-- **Integration with Islamic calendars, prayer times, compasses** (minimal — not Basira's focus, but some users will ask).
-- **Whisper-mode deep research** — long-form research sessions that run for minutes producing essay-quality scholarly analysis with full citations.
-- **Scholar profile pages** — public profiles of verifying scholars so users can follow specific scholars' verified contributions.
-- **Question queuing for live scholars** — asynchronous "ask a scholar" feature for paid users (scholars paid per question).
-
----
-
-## Competitive Landscape
-
-### Who else tries this
-
-| Player | What they do | Why Basira is different |
+| Epic | Description | Effort |
 |---|---|---|
-| **IslamQA / Islamweb / Islamonline** | Static fatwa databases, mostly Salafi / Hanbali | Single-school; no AI; no multi-tradition balance |
-| **Yaqeen Institute** | Research articles, essays, educational content | Content-first, not AI tool; one methodology |
-| **Tafsir.app, Quran.com** | Quran display + translations | Narrow scope; no AI reasoning; no hadith/fiqh |
-| **ChatGPT / Gemini on Islam** | General LLM answering Islamic questions | Hallucinates; no citation grounding; no scholarly verification; no plurality |
-| **Fanar / Jais / Noor** | Arabic LLMs from Muslim-world institutions | Foundation models, not products; don't build scholarly RAG; Basira can ride on top of them |
-| **Existing "Islamic AI apps"** | Usually ChatGPT wrappers marketed as Islamic | Same problems as ChatGPT; no verification; often single-school |
+| R1 | iOS native app | 12pw |
+| R2 | Android native app | 12pw |
+| R3 | Voice interface (TTS for Arabic recitation; STT for queries) | 8pw |
+| R4 | Offline mode (core corpus on-device) | 8pw |
+| R5 | Swahili, Hausa, Persian | 6pw |
+| R6 | Self-hosted embedding model deployed (BGE-M3) | 6pw |
+| R7 | Second data center (APAC/MENA) | 6pw |
+| R8 | Rapid-response current events module | 4pw |
+| **Total** | | **62pw** |
 
-### Why Basira wins
+### v1.5 Exit Criteria
 
-- **Trust:** auditable scholar verification; multi-tradition by default.
-- **Quality:** citation-enforced; zero hallucinated citations policy; public benchmark scores.
-- **Completeness:** actual scholarly corpus, not an LLM hallucinating from training data.
-- **Distribution:** Muslim-world marketing networks, ulama endorsements, institutional pilots.
-- **Mission moat:** no major AI lab can authentically build this; their incentives diverge.
-- **Values:** privacy-first, non-sectarian, not-for-sale — these are not marketing features, they are structural commitments.
-
----
-
-## Deployment / Infrastructure Evolution
-
-```mermaid
-flowchart LR
-    V01[v0.1 Alpha<br/>Single Hetzner VPS<br/>Postgres + pgvector<br/>Claude API] --> V05[v0.5 Beta<br/>Multi-node Hetzner<br/>Managed Postgres<br/>First B2B tenants]
-    V05 --> V10[v1.0 Launch<br/>CDN + WAF<br/>Multi-region edge<br/>Autoscaling API tier]
-    V10 --> V15[v1.5 Reach<br/>Second data center<br/>Self-hosted embeddings<br/>Mobile backend]
-    V15 --> V20[v2.0 Platform<br/>Developer API gateway<br/>Advanced multi-tenancy<br/>Marketplace infra]
-    V20 --> V30[v3.0 Sovereign<br/>Own model training<br/>Own compute fabric<br/>Edge deployment]
-
-    style V01 fill:#e8f4e8
-    style V05 fill:#d1e7dd
-    style V10 fill:#b8dbc6
-    style V15 fill:#9fd0b8
-    style V20 fill:#86c4aa
-    style V30 fill:#6db89c
-```
-
-At every stage we maintain:
-
-- **Portability** — can migrate off any single provider.
-- **Data residency** — Layer 4 data stays EU (Hetzner) per ADR-016.
-- **Observability** — self-hosted Grafana stack.
-- **Zero-retention LLM contracts** where external APIs are used.
+- [ ] Mobile apps live in App Store + Play Store
+- [ ] 9 languages
+- [ ] 100,000+ users
+- [ ] $500K-2M ARR
+- [ ] 50+ verifying scholars
+- [ ] Self-hosted embedding model in production
+- [ ] Second data center serving 30%+ of traffic
 
 ---
 
-## Risk Register (Basira-specific)
+## v2.0 Platform (calendar Y3-Y4)
 
-| Risk | Probability | Mitigation |
+Public Developer API; institutional admin v3; chaplaincy partnerships at scale.
+
+| Epic | Description | Effort |
 |---|---|---|
-| Scholar verification bottleneck | High | Start recruiting Phase 0; fair compensation; concurrent scholars per tradition |
-| Classical Arabic NLP underdelivers | Medium | Budget time for iteration; use scholarly review to flag errors; benchmark publicly |
-| Free tier cost grows faster than revenue | Medium | Fair daily limits; abuse detection; upgrade prompts when limits hit |
-| Institutional sales cycle too long | High | Start pilot conversations in v0.1; have 5+ in pipeline by v0.5 |
-| Cultural backlash ("AI fatwa" fear) | Medium | We do NOT issue fatawa; explicit refusal UX; scholarly advisory visibility |
-| Platform competition from frontier labs | Low but high-impact | Trust + scholarly network can't be replicated by OpenAI/Google |
-| Burnout / key-person risk | Medium | Sustainable pace; bus-factor from Phase 0; no hero-mode culture |
-| Adversarial attacks (prompt injection, scraping) | Medium | Security architecture; abuse detection; see `10-security-architecture.md` |
+| P1 | Public Developer API (OAuth, rate limiting, usage billing) | 12pw |
+| P2 | SDKs (TypeScript, Python) | 6pw |
+| P3 | Marketplace (third-party integrations) | 8pw |
+| P4 | White-label institutional offering | 8pw |
+| P5 | National curriculum partnerships (Muslim-majority countries) | (negotiation) |
+| **Total** | | **34pw** |
+
+### v2.0 Exit Criteria
+
+- [ ] Developer API live with documented SDKs
+- [ ] 10+ third-party integrations using API
+- [ ] $5-20M ARR
+- [ ] Council fully formed (12 members)
+- [ ] Board of Trustees established per Phase G2 governance
 
 ---
 
-## Why Contributors Should Join
+## v3.0 Sovereign (Y5+)
 
-### If you are a Muslim developer
+Self-hosted sovereign LLM; own compute backbone.
 
-This is your chance to build the single most-used Muslim-built piece of software in the world. Not one of many wrappers — the one Muslims will actually trust, used by imams, students, scholars, parents.
-
-Your commits will be in the permanent record. Your MIT-licensed work is yours forever — build your own commercial products on top if you want; we welcome that. The infrastructure you build is something the Ummah needed, not another tracking app.
-
-### If you are a non-Muslim developer who cares
-
-You do not need to be Muslim to contribute. The Quran and the Prophet, peace be upon him, collaborated with non-Muslims on matters of mutual benefit — the Constitution of Medina is one of the oldest pluralistic founding documents in the world. If you care about a world where a billion people have access to trustworthy tools in their own languages, and where AI serves rather than extracts — you are welcome.
-
-### If you are a scholar
-
-Your scholarship reaches people you will never meet. Students in Dearborn ask your verified content; a chaplain in Karachi finds your notes at 3 AM; a new convert in Lagos reads your translation. You are compensated fairly. Your work is attributed. Your voice is one among many — no school is privileged over others.
-
-### If you are a researcher
-
-Published benchmarks. Open datasets. Papers co-authored with us. Reference to your contributions in grant applications. Network of scholars and technologists. This is rigorous work, not marketing.
-
-### If you are operations / legal / organizational
-
-Building a civilizational institution from scratch is rare. Your work is not generic SaaS operations — it is the substrate of an Ummah-serving institution meant to last decades. The challenges (jurisdictional strategy, partnerships, governance) are unusual and consequential.
-
-### In all cases
-
-- No one is extracted from (see `FINANCIAL_MODEL.md`).
-- Founder's return is capped; majority of value flows to mission.
-- The entity is not for sale — your work cannot be sold from under you.
-- Paid paths exist. Unpaid contribution gets MIT + attribution + network + reference value.
+(High-level only at this stage; detailed planning in Phase 2 of the Initiative.)
 
 ---
 
-## How to Join
+## Open Questions / Decisions
 
-See [`../../CONTRIBUTING.md`](../../CONTRIBUTING.md).
+These are unresolved as of 2026-04. Resolution required before relevant Epic begins.
 
-For Basira-specific work:
-
-1. **Pick an issue** from the Basira project board once work begins, or propose one.
-2. **Small PR first** to establish the working relationship.
-3. **Scale up** as trust builds — bigger features, paid contracts, full-time roles.
-
-For scholars: outreach is proactive (we reach out to scholars rather than expecting them to find us), but you are welcome to contact the initiative directly.
-
-For institutional partners: contact through the initiative's public channels once the legal entity is operational.
+1. **Embedding migration timing** — exactly when to switch from OpenAI to BGE-M3. Trigger: cost crosses threshold or quality matches.
+2. **Institutional pricing currency** — fix in USD, or per-region? Pakistan/Indonesia institutions can't afford USD pricing.
+3. **API rate limiting fairness** — exact limits per tier; revisit after first month of beta.
+4. **Mobile app stack** — React Native vs native vs hybrid. Decide before R1 starts.
+5. **Tafseer ordering after Ibn Kathir + al-Mizan** — which third (and subsequent)? Council vote.
+6. **Fatwa councils integration** — which contemporary councils to ingest (Dar al-Ifta, European Council for Fatwa, etc.). Council vote.
 
 ---
 
-## Cross-References
+## Risk Register (Basira-specific, project-level)
 
-- Product overview: [`01-overview.md`](01-overview.md)
-- RAG pipeline: [`02-rag-pipeline.md`](02-rag-pipeline.md)
-- Scholar verification: [`03-scholar-verification.md`](03-scholar-verification.md)
-- MVP scope: [`04-mvp-scope.md`](04-mvp-scope.md)
-- System overview: [`../01-system-overview.md`](../01-system-overview.md)
-- Tech stack: [`../02-tech-stack-decisions.md`](../02-tech-stack-decisions.md)
-- Financial model: [`../../FINANCIAL_MODEL.md`](../../FINANCIAL_MODEL.md)
-- Main roadmap: [`../../ROADMAP.md`](../../ROADMAP.md)
+| Risk | Probability | Impact | Mitigation |
+|---|---|---|---|
+| Scholar bottleneck (cannot verify content fast enough) | High | Severe | Scholar recruitment in parallel from Phase 0; competitive retainers; cross-tradition redundancy |
+| LLM provider rate-limit / contract issue | Medium | Moderate | Multi-provider abstraction (ADR-005); ability to switch in <2s |
+| Hetzner outage | Low | Moderate | Multi-region backups; runbook tested |
+| User data breach | Low | Severe | Encryption at rest + in transit; column-level for sensitive; pen-tests; bug bounty post-launch |
+| Misrepresentation of Islamic content (scholarly accuracy) | Medium | Severe | Multi-stage scholar review; benchmark for hallucinations; rapid-fix process |
+| Sectarian backlash on a specific feature | Medium | Moderate | Multi-school representation by default; content policy strict; advisory escalation |
+| Capital insufficient for v0.1 build | Medium | Severe | Scope reduction first (smaller corpus before broader features); see budget alternatives below |
+| Legal entity delay blocks scholar payments | Medium | Moderate | Founder personally fronts retainers via documented loan to entity until formed |
+| Founder-key-person risk | Medium | Severe | Bus-factor protocol from Day 1 (`private/BUS_FACTOR.md`); Council formation by v0.5 |
 
 ---
 
-## Closing
+## Reduced-scope alternatives if funding constrained
 
-Basira is the commercial anchor, but more than that — it is the most visible test of whether the initiative's principles produce actually useful software. If Basira doesn't earn user love, the theory about Muslim-built AI is unvalidated.
+If full scope is unaffordable, reduced versions:
 
-We intend to earn it.
+**Tier 1 (cheapest viable, ~$10K):**
+- Quran only (no hadith)
+- 1 language (Urdu or English alone)
+- 1 scholar verifying
+- Free tier only, no commercial yet
+- Demonstrates principle; doesn't prove commercial viability
 
-*Wa Allahu a'lam.*
+**Tier 2 (~$20K):**
+- Quran + Bukhari + Muslim only
+- Arabic + Urdu + English
+- 3 scholars
+- Free tier + small Plus tier
+- Sufficient to prove commercial path
+
+**Tier 3 (full v0.1, ~$30K):**
+- As specified above
+
+These tiers are documented so reduced scope is a deliberate choice, not a quiet quality slip.
+
+---
+
+## Cross-references
+
+- Scholar verification process: `03-scholar-verification.md`
+- RAG pipeline detail: `02-rag-pipeline.md`
+- Data architecture: `../03-data-architecture.md`
+- Tech stack ADRs: `../02-tech-stack-decisions.md`
+- Security: `../10-security-architecture.md`
+- Council structure: `../../COMMITTEE.md`
+- Financial model: `../../FINANCIAL_MODEL.md`
+- Main roadmap: `../../ROADMAP.md`
+
+---
+
+This document is updated whenever a task moves status. Current state is the truth; this document follows reality, not the other way around.

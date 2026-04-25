@@ -64,6 +64,7 @@ ummah-ai/
 ├── ROADMAP.md                      ← Timeline, phases, milestones (with diagrams)
 ├── FINANCIAL_MODEL.md              ← Revenue allocation, founder cap, contributor compensation
 ├── CIVILIZATIONAL_PLAN.md          ← 200-year Ummah blueprint (this Initiative is one node)
+├── COMMITTEE.md                    ← Ummah AI Council — pseudonymous, multi-school, adversary-resistant
 ├── docs/
 │   ├── 01-why-this-exists.md       ← Threat model: AI-driven harms against innocents
 │   ├── 02-historical-precedent.md  ← Lessons from 1400 years of Muslim civilization
