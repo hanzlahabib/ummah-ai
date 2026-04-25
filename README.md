@@ -11,6 +11,8 @@ A foundational initiative to build **open, sovereign, and accountable AI infrast
 
 This is not a company. This is not a product. This is **civilizational infrastructure**, built the way Muslim civilization built its greatest institutions: openly, collaboratively, across sectarian lines, rooted in knowledge (`ilm`) and justice (`adl`).
 
+This Initiative is **one node** in a much larger 200-year civilizational plan documented in `CIVILIZATIONAL_PLAN.md`. We do not assume any single founder, organization, or generation can carry the Ummah's future. The Initiative is designed to be useful, then to outlive its builders, then eventually to be replaceable by what comes after.
+
 ## Why This Exists
 
 As of April 2026, the following is true simultaneously:
@@ -61,6 +63,7 @@ ummah-ai/
 ├── LICENSE                         ← Licensing (CC BY-SA 4.0 docs, MIT code)
 ├── ROADMAP.md                      ← Timeline, phases, milestones (with diagrams)
 ├── FINANCIAL_MODEL.md              ← Revenue allocation, founder cap, contributor compensation
+├── CIVILIZATIONAL_PLAN.md          ← 200-year Ummah blueprint (this Initiative is one node)
 ├── docs/
 │   ├── 01-why-this-exists.md       ← Threat model: AI-driven harms against innocents
 │   ├── 02-historical-precedent.md  ← Lessons from 1400 years of Muslim civilization
@@ -88,7 +91,9 @@ ummah-ai/
 
 **If you are new:** Read in order — `MANIFESTO.md` → `PRINCIPLES.md` → `docs/01` through `docs/09` → `ROADMAP.md`. Use `GLOSSARY.md` for any Arabic or Islamic terms that are new to you.
 
-**If you want the plan at a glance:** Go straight to `ROADMAP.md` — it has the phase timeline, milestones, and project-maturation diagrams.
+**If you want the plan at a glance:** Go straight to `ROADMAP.md` — phase timeline, milestones, project-maturation diagrams.
+
+**If you want the long view:** Read `CIVILIZATIONAL_PLAN.md` — the 200-year Ummah blueprint within which this Initiative is one node. Written for builders, dissenters, and the generations who come after us.
 
 **If you are considering contributing and wondering about compensation or founder incentives:** Read `FINANCIAL_MODEL.md` — explicit on founder cap, revenue allocation, what contributors get, and legal enforcement.
 

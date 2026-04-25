@@ -6,6 +6,8 @@ A multi-generational project, but with concrete phase-gates along the way. This 
 
 > **Current status (April 2026):** Phase 0 — Foundation + Architecture documents complete. Implementation begins in Phase 1.
 
+> **Larger frame:** This roadmap covers the next ~5 years of the Ummah AI Initiative specifically. The Initiative itself is **one node** in a 200-year civilizational plan covered in [`CIVILIZATIONAL_PLAN.md`](CIVILIZATIONAL_PLAN.md) — including all twelve pillars of Ummah infrastructure that need building, of which this Initiative addresses 4-5. Read the civilizational plan first if you want to understand why this 5-year roadmap is structured the way it is.
+
 ---
 
 ## One-screen view
