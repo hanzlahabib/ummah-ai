@@ -48,6 +48,10 @@ Founder dependence is a known vulnerability. To mitigate it from the earliest mo
 - **Public foundation:** All foundation documents are public and openly licensed — so the mission survives regardless of any single individual.
 - **No single-person secrets:** No credential, account, or critical piece of operational knowledge is held by only one person.
 - **Unavailability procedure:** If the founder is unreachable for 30 days with no explanation, the trusted continuators are authorized to announce the situation publicly and assume interim leadership. Within 90 days, they decide whether to appoint a new lead, restructure, or transition to community governance.
+- **Dead-man switch:** An automated heartbeat system backstops the manual procedure. If the founder does not produce a check-in signal within a configured threshold, the system automatically notifies continuators (Stage 1), releases Shamir-split credential shares for critical access (Stage 2), and posts a pre-drafted public notice (Stage 3). Prevents the failure mode where no one notices the founder is gone.
+- **Duress signal:** A pre-arranged signal the founder can include in any communication to indicate coercion. When observed, continuators treat the founder as unavailable regardless of check-in status.
+
+**Implementation:** the specific continuator identities, contact details, dead-man switch configuration, and duress signal are documented in a private operational document (`private/BUS_FACTOR.md` + `private/dead-man-switch.md`), not committed to this public repository per Layer 4 of the disclosure framework (`docs/03-open-vs-closed.md`). The *existence* of the protocol and its mechanics are public; the *identities and secrets* stay protected.
 
 This protocol is a commitment, not an aspiration. It is in place from the first day of the project, not deferred to a later phase.
 
